@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div>
-      <Home v-if="token" />
+      <Home v-if="!this.$store.getters.isLoggedIn" />
       <HomeUser v-else />
       <router-view></router-view>
     </div>
@@ -16,18 +16,12 @@ import HomeUser from './components/HomeUser.vue';
 import Checkbox from './components/common/Checkbox.vue';
 export default {
   name: 'App',
-  data() {
-    return {
-      token: this.$token
-    }
-  },
   components: {
     Home,
     Footer,
     HomeUser,
     Checkbox
-  },
-
+  }
 }
 </script>
 

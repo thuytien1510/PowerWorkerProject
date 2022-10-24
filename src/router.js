@@ -15,7 +15,9 @@ const router = new VueRouter({
     mode: "history",
     routes: [
         {
-            path: "/",
+            path: "/login",
+            alias: "/",
+            name: "login",
             component: LogIn
         },
         {
@@ -23,11 +25,7 @@ const router = new VueRouter({
             name: "signup",
             component: SignUp
         },
-        {
-            path: "/login",
-            name: "login",
-            component: LogIn
-        },
+
         {
             path: "/forgotpassword",
             name: "forgotpassword",
@@ -44,12 +42,12 @@ const router = new VueRouter({
             component: EmployerPostJob,
             children: [
                 {
-                    path: "/employer/postJob/region",
+                    path: "/region",
                     name: "region",
                     component: ClassicJobRegions
                 },
                 {
-                    path: "/employer/postJob/category",
+                    path: "/category",
                     name: "category",
                     component: ClassicJobCategories
                 },

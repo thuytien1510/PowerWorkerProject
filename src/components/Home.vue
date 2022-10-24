@@ -4,7 +4,7 @@
       <header>
         <div class="nav-header">
           <div class="brand">
-            <a href="#"><img src="../assets/img/home/logo-sg.svg" alt=""></a>
+            <a href="#"><img src="../assets/img/home/logo-sg.svg" alt="" /></a>
           </div>
           <nav class="navbar">
             <ul class="navbar-nav">
@@ -26,8 +26,8 @@
             </ul>
           </nav>
           <div class="auth">
-            <router-link to="/login" class="login">Log In</router-link>
-            <router-link to="/signup" class="signup">Sign Up</router-link>
+            <router-link :to="{ name: 'login'}" class="login">Log In</router-link>
+            <router-link :to="{ name: 'signup'}" class="signup">Sign Up</router-link>
           </div>
           <div class="bar-icon" @click="showMenu()">
             <span class="material-symbols-outlined"> menu </span>
@@ -38,7 +38,10 @@
         <div class="side-nav side-nav--active" v-show="show">
           <div class="side-nav__inner">
             <div class="side-nav__header">
-              <span class="material-symbols-outlined close" @click="show = false">
+              <span
+                class="material-symbols-outlined close"
+                @click="show = false"
+              >
                 close
               </span>
             </div>
@@ -82,15 +85,14 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap");
 @import '../assets/css/style.scss';
 
 body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: $base-font-family;
-  box-shadow: inset -10px 0px 20px -10px rgba(148, 94, 94, 0.4);
+  font-family: $base_font_family;
+  box-shadow: inset -0.625rem 0px 1.25rem -0.625rem rgba(148, 94, 94, 0.4);
 }
 
 .slide-enter-active,
@@ -101,7 +103,7 @@ body {
 .slide-enter,
 .slide-leave-to {
   transform: translateX(100%);
-  transition: all 150ms ease-in 0s
+  transition: all 150ms ease-in 0s;
 }
 
 .nav-header {
@@ -113,7 +115,7 @@ body {
   padding: 0 calc((100% - 1086px) / 2);
 
   .brand {
-    padding: 27px 15px 17px 0;
+    padding: 1.688rem 0.9375rem 1.063rem 0;
   }
 
   .navbar {
@@ -132,9 +134,9 @@ body {
         .nav-link {
           text-decoration: none;
           font-weight: 500;
-          font-size: 15px;
+          font-size: 0.9375rem;
           color: rgb(32, 50, 89);
-          font-family: $base-font-family;
+          font-family: $base_font_family;
 
           :after {
             display: block;
@@ -156,17 +158,14 @@ body {
     display: flex;
 
     a {
-      padding: 6px 12px;
-      text-decoration: none;
+      padding: 0.375rem 0.75rem;
       font-weight: 500;
-      font-size: 14px;
-      font-family: $base-font-family;
       color: $white;
     }
 
     .login {
       font-weight: 400;
-      margin-right: 16px;
+      margin-right: 1rem;
       color: $light-accent;
       display: flex;
       align-items: center;
@@ -192,7 +191,6 @@ body {
   .bar-icon {
     display: none;
   }
-
 }
 
 .side-nav {
@@ -203,8 +201,8 @@ body {
   background: #fff;
   z-index: 22;
   box-shadow: 0 8px 20px 0 rgb(97 44 21 / 19%);
-  -webkit-transition: .25s all ease-in-out;
-  transition: .25s all ease-in-out;
+  -webkit-transition: 0.25s all ease-in-out;
+  transition: 0.25s all ease-in-out;
 
   &__inner {
     display: flex;
@@ -216,8 +214,8 @@ body {
       span {
         cursor: pointer;
         color: #a8b0bf;
-        font-size: 30px;
-        margin: 22px;
+        font-size: 1.875rem;
+        margin: 1.375rem;
 
         &:hover {
           color: $accent;
@@ -225,7 +223,7 @@ body {
 
         &:active {
           border: 2px solid rgba($color: $light-accent, $alpha: 0.3);
-          padding: 6px;
+          padding: 0.375rem;
           border-radius: 3px;
         }
       }
@@ -236,22 +234,19 @@ body {
         display: flex;
         justify-content: flex-start;
         flex-direction: column;
-        list-style: none;
         margin: 0;
-        padding-left: 15px;
+        padding-left: 0.9375rem;
 
         li {
-          padding: 10px 0;
-          padding-left: 10px;
+          padding: 0.625rem 0;
+          padding-left: 0.625rem;
 
           a {
-            text-decoration: none;
             display: block;
             transition: 0.3s;
             color: rgb(27, 27, 27);
-            font-size: 17px;
-            font-family: $base-font-family;
-            font-weight: 400;
+            font-size: 1.063rem;
+            font-weight: $regular;
           }
         }
       }
@@ -275,13 +270,13 @@ body {
 
     .bar-icon {
       display: block;
-      margin-left: 15px;
+      margin-left: 0.9375rem;
       display: flex;
       align-items: center;
       cursor: pointer;
       color: #aaa;
       border: 1px solid rgb(233, 228, 228);
-      padding: 0 6px;
+      padding: 0 0.375rem;
     }
   }
 }

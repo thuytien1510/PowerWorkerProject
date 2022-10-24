@@ -1,9 +1,9 @@
 <template>
-  <div class="page-filter page-filters__item dropdown ">
+  <div class="page-filter page-filters__item dropdown">
     <a class="dropdown-toggle" href="#" @click="toggleSearch()" :class="none">
       <slot name="toggle"></slot>
     </a>
-    <div class="page-filter__menu dropdown-menu" :class="{show: drop}">
+    <div class="page-filter__menu dropdown-menu" :class="{ show: drop }">
       <div class="dropdown-content">
         <div class="page-filter__options">
           <slot name="content"></slot>
@@ -17,20 +17,23 @@
   </div>
 </template>
 <script>
-import DetailJobs from './DetailJobs.vue'
-import Checkbox from '../common/Checkbox.vue';
+import DetailJobs from "./DetailJobs.vue";
+import Checkbox from "../common/Checkbox.vue";
 export default {
   components: {
     DetailJobs,
-    Checkbox
+    Checkbox,
   },
   props: {
-    none: String
+    none: {
+      type: String,
+      required: false,
+    },
   },
   data() {
     return {
       drop: false,
-    }
+    };
   },
   methods: {
     toggleSearch() {
@@ -38,27 +41,27 @@ export default {
     },
     close(e) {
       if (!this.$el.contains(e.target)) {
-        this.drop = false
+        this.drop = false;
       }
-    }
+    },
   },
   mounted() {
-    document.addEventListener('click', this.close)
+    document.addEventListener("click", this.close);
   },
   beforeDestroy() {
-    document.removeEventListener('click', this.close)
-  }
-}
+    document.removeEventListener("click", this.close);
+  },
+};
 </script>
 <style lang="scss" scoped>
-@import '../../assets/css/style.scss';
+@import "../../assets/css/style.scss";
 
 .page-filter {
   .page-filter__menu {
-    width: 339px;
+    width: 315px;
 
     .dropdown-content {
-      padding: 15px 18px;
+      padding: 0.9375rem 1.125rem;
 
       .page-filter__options {
         display: flex;
@@ -66,10 +69,10 @@ export default {
         flex-wrap: wrap;
 
         .page-filter__option {
-          padding: 7px 0;
+          padding: 0.438rem 0;
 
           label {
-            padding-left: 10px;
+            padding-left: 0.625rem;
           }
         }
       }
@@ -78,7 +81,7 @@ export default {
         overflow: hidden;
         display: grid;
         grid-template-columns: 1fr 1fr;
-        padding-left: 5px;
+        padding-left: 0.3125rem;
       }
     }
 
@@ -88,7 +91,7 @@ export default {
       align-content: center;
 
       button {
-        padding: 10px;
+        padding: 0.625rem;
         width: 100%;
         background: $accent;
         border: none;
@@ -115,12 +118,12 @@ export default {
   }
 
   .dropdown-toggle {
-    padding: 12.5px 24px 14.5px;
+    padding: 0.78125rem 1.5rem 0.90625rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    color: #686d77;
-    font-size: 14px;
+    color: $gray-darker;
+    font-size: 0.875rem;
     font-weight: 600;
     text-decoration: none;
 
@@ -154,7 +157,7 @@ export default {
     }
   }
 
-  .sub-cat+.dropdown-menu {
+  .sub-cat + .dropdown-menu {
     display: none;
   }
 
@@ -172,10 +175,9 @@ export default {
   }
 
   &:last-child::after {
-    background-color: #f5f7fa;
+    background-color: $color-backgroud-header;
   }
 }
-
 
 .dropdown {
   position: relative;
@@ -189,15 +191,16 @@ export default {
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
-    margin-top: 8px;
+    margin-top: 0.5px;
+    top: 50px;
 
     .dropdown-content {
       max-height: 250px;
-      color: #6b6666;
-      padding: 12px 16px;
+      color: $gray-darker;
+      padding: 0.75rem 1rem;
       text-decoration: none;
       display: block;
-      font-size: 14px;
+      font-size: $regular;
       font-weight: $light;
       overflow: auto;
 
@@ -209,6 +212,33 @@ export default {
 
   .show {
     display: block;
+  }
+}
+.previosLast .dropdown-menu {
+  right: -70px;
+  will-change: transform;
+  transform: translate(6vw, 0);
+}
+.lastChild .dropdown-menu {
+  right: 50px;
+  will-change: transform;
+  transform: translate(6vw, 0);
+}
+@media screen and (max-width: 768px){
+  .previosLast .dropdown-menu {
+  right: 4vw;
+}
+.lastChild .dropdown-menu {
+  left: -6vw;
+}
+}
+@media screen and (max-width: 576px) {
+  .page-filter .page-filter__menu {
+    width: 100%;
+  }
+
+  .previosLast .dropdown-menu, .lastChild .dropdown-menu{
+    left: -6vw;
   }
 }
 </style>

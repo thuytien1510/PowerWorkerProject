@@ -1,22 +1,47 @@
 <template>
   <div id="signUp">
     <div class="container">
-      <form id="signup-form" class="signup-form" action="">
+      <form
+        id="signup-form"
+        class="signup-form"
+        action=""
+        @submit.prevent="submitForm"
+      >
         <div class="login-form__content">
           <h2>Sign Up</h2>
           <div class="row-form">
             <div class="col">
               <div class="form-group">
-                <label class="form-label" for="fullname">Real name (for internal verific. only)</label>
-                <input type="text" name="Fullname" id="fullname" class="form-control" value=""
-                  placeholder="Type your response here" required />
+                <label class="form-label" for="fullname"
+                  >Real name (for internal verific. only)</label
+                >
+                <input
+                  type="text"
+                  name="Fullname"
+                  id="fullname"
+                  class="form-control"
+                  placeholder="Type your response here"
+                  v-model="name"
+                />
+                <span class="error" v-if="nameIsValid && submit">{{
+                  msg.name
+                }}</span>
               </div>
             </div>
             <div class="col">
               <div class="form-group">
                 <label class="form-label" for="email">Email</label>
-                <input type="email" name="Email" id="email" class="form-control" value=""
-                  placeholder="Type your response here" required />
+                <input
+                  type="email"
+                  name="Email"
+                  id="email"
+                  class="form-control"
+                  placeholder="Type your response here"
+                  v-model="email"
+                />
+                <span class="error" v-if="emailIsValid && submit">{{
+                  msg.email
+                }}</span>
               </div>
             </div>
           </div>
@@ -24,15 +49,35 @@
             <div class="col">
               <div class="form-group">
                 <label class="form-label" for="password">Password</label>
-                <input type="password" name="Password" id="password" class="form-control"
-                  placeholder="Type your response here" required />
+                <input
+                  type="password"
+                  name="Password"
+                  id="password"
+                  class="form-control"
+                  placeholder="Type your response here"
+                  v-model.number="password"
+                />
+                <span class="error" v-if="passwordIsValid && submit">{{
+                  msg.password
+                }}</span>
               </div>
             </div>
             <div class="col">
               <div class="form-group">
-                <label class="form-label" for="confirmpassword">Confirm Password</label>
-                <input type="password" name="Confirmpassword" id="confirmpassword" class="form-control"
-                  placeholder="Type your response here" required />
+                <label class="form-label" for="confirmpassword"
+                  >Confirm Password</label
+                >
+                <input
+                  type="password"
+                  name="Confirmpassword"
+                  id="confirmpassword"
+                  class="form-control"
+                  placeholder="Type your response here"
+                  v-model.number="confirmpassword"
+                />
+                <span class="error" v-if="confirmpasswordIsValid && submit">{{
+                  msg.confirmpassword
+                }}</span>
               </div>
             </div>
           </div>
@@ -40,18 +85,36 @@
             <div class="col">
               <div class="form-group">
                 <label class="form-label" for="nickname">Nickname</label>
-                <input type="text" name="Nickname" id="nickname" class="form-control" value=""
-                  placeholder="Type your response here" required />
+                <input
+                  type="text"
+                  name="Nickname"
+                  id="nickname"
+                  class="form-control"
+                  placeholder="Type your response here"
+                  v-model="nickname"
+                />
+                <span class="error" v-if="nicknameIsValid && submit">{{
+                  msg.nickname
+                }}</span>
               </div>
             </div>
             <div class="col">
               <div class="form-group">
                 <span class="fancy-select">
-                  <label class="form-label" for="countrycode">Select Country</label>
-                  <Select2 placeholder="Select Country" v-model="myValue" :options="myOptions"
-                    :settings="{ settingOption: value, settingOption: value }" @change="myChangeEvent($event)"
-                    @select="mySelectEvent($event)" />
+                  <label class="form-label" for="countrycode"
+                    >Select Country</label
+                  >
+                  <Select2
+                    placeholder="Select Country"
+                    v-model="myValue"
+                    :options="myOptions"
+                    @change="myChangeEvent($event)"
+                    @select="mySelectEvent($event)"
+                  />
                 </span>
+                <span class="error" v-if="!selectCountryValid && submit"
+                  >Country not selected</span
+                >
               </div>
             </div>
           </div>
@@ -60,37 +123,65 @@
             <div class="signup-profile-type__content">
               <h4>Select your profile type:</h4>
               <p>
-                Select the desired profile type now, but you can switch between them later.
+                Select the desired profile type now, but you can switch between
+                them later.
               </p>
             </div>
 
             <div class="signup-profile-type__options">
               <div class="radio-group-2">
-                <li>
-                  <input type="radio" name="Profiletype" value="worker" id="profileTypeWorker" required checked />
-                  <label for="profileTypeWorker">I'm a Worker</label>
-                </li>
-                <li>
-                  <input type="radio" name="Profiletype" value="employer" id="profileTypeEmployer" required />
-                  <label for="profileTypeEmployer">I'm an Employer</label>
-                </li>
+                <ul>
+                  <li>
+                    <input
+                      type="radio"
+                      name="Profiletype"
+                      value="WORKER"
+                      id="profileTypeWorker"
+                      v-model="posistion"
+                      checked
+                    />
+                    <label for="profileTypeWorker">I'm a Worker</label>
+                  </li>
+                  <li>
+                    <input
+                      type="radio"
+                      name="Profiletype"
+                      value="EMPLOYER"
+                      id="profileTypeEmployer"
+                      v-model="posistion"
+                    />
+                    <label for="profileTypeEmployer">I'm an Employer</label>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
 
-          <div class="custom-control">
-            <Checkbox name="Tos" id="tos" for="tos">I agree to SproutGigs Terms of Service and Privacy Policy.
+          <div class="custom-control" >
+            <Checkbox forV="tos">
+              <template slot="input">
+                <input type="checkbox" name="Tos" id="tos" v-model="checkAccept"/>
+              </template>
+              I agree to SproutGigs Terms of Service and Privacy Policy.
             </Checkbox>
+            <span class="error" v-if="!agreeValid && submit"
+              >You need to accept the Terms of Service</span
+            >
           </div>
           <div class="custom-control">
-            <Checkbox name="OptIn" id="opt-in" for="opt-in">Send me news, events and offers via periodic email.
+            <Checkbox forV="opt-in">
+              <template slot="input">
+                <input type="checkbox" name="OptIn" id="opt-in"/>
+              </template>
+              Send me news, events and offers via periodic email.
             </Checkbox>
           </div>
         </div>
         <div class="login-form__footer">
-          <button type="button">SIGN UP</button>
+          <button type="submit">SIGN UP</button>
           <p class="have-account">
-            Have an account? <router-link to="/login" class="login-link">Login now.</router-link>
+            Have an account?
+            <router-link :to="{ name: 'login'}" class="login-link">Login now.</router-link>
           </p>
         </div>
       </form>
@@ -101,10 +192,14 @@
 import "vue-select/dist/vue-select.css";
 import Select2 from "v-select2-component";
 import Checkbox from "./common/Checkbox.vue";
+import submitForm from "@/components/mixins/mixinValidate";
+import axios from "axios";
 
 export default {
   data() {
     return {
+      posistion: "",
+      checkAccept: "",
       myValue: "",
       myOptions: [
         "Select Country",
@@ -316,15 +411,49 @@ export default {
       ],
     };
   },
+  mixins: [submitForm],
+  computed: {
+    selectCountryValid() {
+      return this.myValue ? true : false;
+    },
+    agreeValid() {
+      console.log(this.checkAccept);
+      return this.checkAccept ? true : false;
+    },
+  },
   methods: {
-    onSelect({ name, iso2, dialCode }) {
-      console.log(name, iso2, dialCode);
+    formIsValid() {
+      return (
+        this.emailIsValid &&
+        this.passwordIsValid &&
+        this.confirmpasswordIsValid &&
+        this.nameIsValid &&
+        this.nicknameIsValid &&
+        this.selectCountryValid &&
+        this.agreeValid
+      );
     },
-    myChangeEvent(val) {
-      console.log(val);
-    },
-    mySelectEvent({ id, text }) {
-      console.log({ id, text });
+    async submitForm() {
+      this.submit = true;
+      try {
+        const credentials = {
+          fullName: this.name,
+          username: this.nickname,
+          email: this.email,
+          region: this.myValue,
+          password: this.password,
+          role: this.posistion,
+        };
+        const response = await axios.post("/auth/register", credentials);
+        console.log(response);
+
+        if (this.formIsValid) {
+          this.$router.push("/login");
+        }
+      } catch (error) {
+        this.formIsValid();
+        console.log(error);
+      }
     },
   },
   components: { Select2, Checkbox },
@@ -344,12 +473,14 @@ export default {
   visibility: hidden;
 }
 
-.select2-container--default .select2-selection--single .select2-selection__arrow::after {
+.select2-container--default
+  .select2-selection--single
+  .select2-selection__arrow::after {
   font-family: "Font Awesome 5 Free";
   content: "\f077";
   display: inline-block;
   font-weight: 900;
-  font-size: 17px;
+  font-size: 1.063rem;
   position: absolute;
   top: 10px;
   right: 0px;
@@ -358,12 +489,14 @@ export default {
   text-align: center;
 }
 
-.select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow:after {
-  font-family: "Font Awesome 5 Free";
+.select2-container--default.select2-container--open
+  .select2-selection--single
+  .select2-selection__arrow:after {
+  font-family: "Font Awesome 6 Free";
   content: "\f078";
   display: inline-block;
   font-weight: 900;
-  font-size: 17px;
+  font-size: 1.063rem;
   top: 10px;
   right: 0px;
   color: #686d77;
@@ -385,12 +518,12 @@ export default {
 }
 
 .select2-results__option {
-  padding: auto 5px;
+  padding: auto 0.3125rem;
 }
 
 .select2-results__options {
-  font-family: 'Roboto';
-  padding-left: 10px;
+  font-family: "Roboto";
+  padding-left: 0.625rem;
   font-size: 14px;
   font-weight: 500;
 }
@@ -401,7 +534,6 @@ export default {
 
 .select2-selection,
 .select2-selection--single {
-  /* width: 200px !important; */
   height: 40px !important;
   border: none !important;
 }
@@ -412,7 +544,7 @@ export default {
 }
 
 .select2-selection__rendered {
-  padding-top: 7px;
+  padding-top: 0.438rem;
   font-size: 14px;
   font-weight: 500;
   color: rgb(104, 109, 119);
@@ -424,33 +556,23 @@ export default {
 }
 
 .select2-search--dropdown {
-  padding: 10px;
+  padding: 0.625rem;
 }
 </style>
 <style lang="scss" scoped>
-// @import '../assets/css/style.scss';
-@import '@/assets/css/style.scss';
+@import "@/assets/css/style.scss";
 
 #signUp {
-  max-width: 520px;
+  max-width: 32.5rem;
   margin: 0 auto;
-  padding-top: 70px;
-  font-family: $base-font-family;
-  padding-bottom: 80px;
-}
-
-h2 {
-  font-family: $base-font-family;
-  font-weight: $bold;
-  font-size: 27px;
-  color: $color-title;
-  margin: 0;
-  padding-bottom: 30px;
+  padding-top: 4.375rem;
+  font-family: $base_font_family;
+  padding-bottom: 5rem;
 }
 
 .row-form {
   display: flex;
-  gap: 16px;
+  gap: 1rem;
 
   .col {
     width: 100%;
@@ -458,28 +580,28 @@ h2 {
 
   .form-group {
     width: 100%;
-    margin-bottom: 30px;
+    margin-bottom: 1.875rem;
 
     label {
       display: block;
-      margin: 0 0 10px;
+      margin: 0 0 0.625rem;
       color: $gray;
-      font-size: 14px;
+      font-size: 0.875rem;
       font-weight: $semibold;
-      font-family: $base-font-family;
+      font-family: $base_font_family;
     }
 
     input {
       outline: none;
       display: block;
-      background: #f5f7fa;
+      background: $color-backgroud-header;
       width: 100%;
       border: 0;
       box-sizing: border-box;
-      padding: 10px 11px 12px;
+      padding: 0.625rem 0.6875rem 0.75rem;
       color: $color-title;
-      font-family: $base-font-family;
-      font-size: 15px;
+      font-family: $base_font_family;
+      font-size: 0.9375rem;
       font-weight: $regular;
       line-height: inherit;
       transition: 0.3s ease;
@@ -492,7 +614,7 @@ h2 {
 
     .fancy-select {
       div {
-        background: #f5f7fa;
+        background: $color-backgroud-header;
         width: 100%;
       }
     }
@@ -502,7 +624,7 @@ h2 {
 .signup-profile-type {
   display: flex;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 1rem;
 }
 
 .signup-profile-type__content {
@@ -514,7 +636,7 @@ h2 {
   }
 
   p {
-    font-weight: $light
+    font-weight: $light;
   }
 }
 
@@ -522,11 +644,10 @@ h2 {
   -webkit-flex-shrink: 0;
   -ms-flex-negative: 0;
   flex-shrink: 0;
-  margin-left: 16px;
+  margin-left: 1rem;
   font-size: 14px;
 
   .radio-group-2 {
-    list-style: none;
     margin: 0;
     padding: 0;
 
@@ -535,7 +656,7 @@ h2 {
     }
 
     li {
-      margin-top: 10px;
+      margin-top: 0.625rem;
 
       input {
         margin: -1px;
@@ -550,18 +671,18 @@ h2 {
 
       label {
         position: relative;
-        padding-left: 28px;
+        padding-left: 1.75rem;
         cursor: pointer;
         margin: 0;
       }
 
-      input:checked+label:before {
+      input:checked + label:before {
         background-image: url(../assets/img/radio-checked.svg);
-        background-color: #22ab59;
+        background-color: $accent;
       }
 
       label:before {
-        border: 1px solid #22ab59;
+        border: 1px solid $accent;
         width: 17px;
         height: 17px;
         border-radius: 20px;
@@ -588,12 +709,12 @@ h2 {
   color: rgb(104, 109, 119);
 
   .custom-control-label {
-    padding-top: 5px;
+    padding-top: 0.3125rem;
   }
 }
 
 .login-form__footer {
-  margin-top: 24px;
+  margin-top: 1.5rem;
 
   button {
     outline: none;
@@ -601,7 +722,7 @@ h2 {
     width: 100%;
     border: 0;
     border-radius: 4px;
-    padding: 12px 20px;
+    padding: 0.75rem 1.25rem;
     color: $white;
     font-family: inherit;
     font-size: inherit;
@@ -609,7 +730,7 @@ h2 {
     line-height: inherit;
     text-transform: uppercase;
     cursor: pointer;
-    margin-bottom: 16px;
+    margin-bottom: 1rem;
   }
 }
 
@@ -626,7 +747,7 @@ h2 {
 }
 
 @media screen and (max-width: 767.98px) {
-  .row-form{
+  .row-form {
     flex-wrap: wrap;
     gap: unset;
   }

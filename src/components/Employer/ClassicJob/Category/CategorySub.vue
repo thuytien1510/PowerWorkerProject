@@ -1,53 +1,54 @@
 <template>
-    <div class="subcategory-item" :class="{'custom-checkbox-btn--success': isActive}" @click="activeChange()">
-        <input type="radio" :id="id" name="subcategory" class="custom-control-input" :value="value">
-        <label :for="forN" class="custom-control-label">
-            <slot></slot>
-        </label>
-    </div>
+  <div
+    class="subcategory-item"
+    :class="{ 'custom-checkbox-btn--success': isActive }"
+    @click="activeChange()"
+  >
+    <input type="radio" :id="id" name="subcategory" :value="value" />
+    <label>
+      <slot></slot>
+    </label>
+  </div>
 </template>
 <script>
+import activeChange from "@/components/mixins/mixinToggle";
 export default {
-    props: {
-        id: String,
-        forN: String,
-        value: String
+  props: {
+    id: {
+      type: String,
+      required: true,
     },
-    data() {
-        return {
-            isActive: false
-        }
+    value: {
+      type: String,
+      required: true,
     },
-    methods: {
-        activeChange() {
-            this.isActive = !this.isActive
-        }
-    }
-}
+  },
+  mixins: [activeChange],
+};
 </script>
 <style lang="scss" scoped>
-@import '@/assets/css/style.scss';
+@import "@/assets/css/style.scss";
 
 .subcategory-item {
-    background-color: #f2f3f5;
+  background-color: #f2f3f5;
 
-    input {
-        position: absolute;
-        left: 0;
-        z-index: -1;
-        width: 13px;
-        height: 17px;
-        opacity: 0;
-    }
+  input {
+    position: absolute;
+    left: 0;
+    z-index: -1;
+    width: 13px;
+    height: 17px;
+    opacity: 0;
+  }
 
-    label {
-        padding: 10px 16px;
-        display: block;
-        text-align: center;
-        border: 1px solid #d3dae6;
-        color: #1b1b1b;
-        cursor: pointer;
-        border: none;
-    }
+  label {
+    padding: 0.625rem 1rem;
+    display: block;
+    text-align: center;
+    border: 1px solid $color-border-light;
+    color: $color-dark;
+    cursor: pointer;
+    border: none;
+  }
 }
 </style>

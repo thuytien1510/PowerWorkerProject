@@ -1,67 +1,61 @@
 <template>
-    <div class="target-item " :class="{'custom-checkbox-btn--success': isActive}" @click="activeChange()">
-        <input type="radio" :name="name" :id="id">
-        <label :for="forN">
-            {{value}}
-        </label>
-    </div>
+  <div
+    class="target-item"
+    :class="{ 'custom-checkbox-btn--success': isActive }"
+    @click="activeChange()"
+  >
+    <input type="radio" :name="name" :id="id" />
+    <label>
+      {{ value }}
+    </label>
+  </div>
 </template>
 <script>
+import activeChange from "@/components/mixins/mixinToggleBlur";
 export default {
-    props: {
-        name: String,
-        id: String,
-        forN: String,
-        value: String
+  props: {
+    name: {
+      type: String,
+      required: true,
     },
-    data() {
-        return {
-            isActive: false
-        }
+    id: {
+      type: String,
+      required: true,
     },
-    methods: {
-        activeChange() {
-            this.isActive = !this.isActive
-        },
-        close(e) {
-            if (!this.$el.contains(e.target)) {
-                this.isActive = false
-            }
-        }
+    value: {
+      type: String,
+      required: true,
     },
-    mounted() {
-        document.addEventListener('click', this.close)
-    },
-    beforeDestroy() {
-        document.removeEventListener('click', this.close)
-    }
-}
+  },
+  mixins: [activeChange],
+};
 </script>
 <style lang="scss" scoped>
-@import '@/assets/css/style.scss';
+@import "@/assets/css/style.scss";
+
 .target-item {
-    position: relative;
-    z-index: 1;
+  position: relative;
+  z-index: 1;
+  display: block;
+  min-height: 21px;
+
+  input {
+    position: absolute;
+    left: 0;
+    z-index: -1;
+    width: 13px;
+    height: 17px;
+    opacity: 0;
+    padding: 0;
+  }
+
+  label {
     display: block;
-    min-height: 21px;
-
-    input {
-        position: absolute;
-        left: 0;
-        z-index: -1;
-        width: 13px;
-        height: 17px;
-        opacity: 0;
-        padding: 0;
-    }
-
-    label {
-        display: block;
-        padding: 14px 20px;
-        text-align: center;
-        border: 1px solid #d3dae6;
-        color: #1b1b1b;
-        cursor: pointer;
-    }
+    padding: 0.875rem 1.25rem;
+    text-align: center;
+    border: 1px solid $color-border-light;
+    color: $color-dark;
+    cursor: pointer;
+  }
 }
 </style>

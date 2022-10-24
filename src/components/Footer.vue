@@ -40,11 +40,10 @@
       <div class="footer-bottom ">
         <p>&copy; 2022 SproutGigs.com. All Rights Reserved.</p>
         <div class="social">
-          <a href=""><i class="fas fa-envelope"></i></a>
-          <a href="https://www.facebook.com/groups/sproutgigs/" target="_blank"><i
-              class="fab fa-facebook-square"></i></a>
-          <a href="https://twitter.com/sproutgigs" target="_blank"><i class="fab fa-twitter"></i></a>
-          <a href="https://www.reddit.com/r/SproutGigs" target="_blank"><i class="fab fa-reddit-square"></i></a>
+          <a href=""><font-awesome-icon icon="fa-solid fa-envelope" /></a>
+          <a href="https://www.facebook.com/groups/sproutgigs/" target="_blank"><font-awesome-icon icon="fa-brands fa-square-facebook" /></a>
+          <a href="https://twitter.com/sproutgigs" target="_blank"><font-awesome-icon icon="fa-brands fa-twitter" /></a>
+          <a href="https://www.reddit.com/r/SproutGigs" target="_blank"><font-awesome-icon icon="fa-brands fa-square-reddit" /></a>
         </div>
       </div>
       <div class="text-footer">
@@ -61,18 +60,15 @@
   margin: 0;
   background-color: $color-backgroud-header;
   color: #7f7e7e;
-  font-family: $base-font-family;
-  font-weight: $light;
-  font-size: 14px;
   margin-top: auto;
-  padding: 80px calc((100% - 1086px) / 2 + 20px);
+  padding: 80px calc((100% - 1086px) / 2 + 1.25rem);
 }
 
 .footer-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 50px;
+  padding-bottom: 3.125rem;
 }
 
 .footer-nav {
@@ -83,16 +79,11 @@
   flex-wrap: wrap;
 
   .nav-item {
-    list-style-type: none;
-    align-items: center;
-    margin: 7px 20px;
+    margin: 0.438rem 1.25rem;
 
     .nav-link {
-      text-decoration: none;
       font-weight: $light;
-      font-size: 14px;
       color: rgb(32, 50, 89);
-      font-family: $base-font-family;
 
       :after {
         display: block;
@@ -114,13 +105,13 @@
   justify-content: space-between;
 
   .social a {
-    font-size: 15px;
+    font-size: 0.9375rem;
     display: inline-block;
     vertical-align: middle;
     color: $color-title;
     opacity: 0.4;
-    margin-left: 14px;
-    padding: 6px 10px;
+    margin-left: 0.875rem;
+    padding: 0.375rem 0.625rem;
 
     &:hover {
       color: $accent;
@@ -130,8 +121,8 @@
 }
 
 .text-footer {
-  margin-top: 16px;
-  font-size: 12px;
+  margin-top: 1rem;
+  font-size: 0.75rem;
 }
 
 @media screen and (max-width: 768px) {
@@ -145,13 +136,13 @@
 
     div:first-child,
     p {
-      margin-bottom: 20px;
+      margin-bottom: 1.25rem;
     }
   }
 
   .text-footer {
     width: 100%;
-    font-size: 11.6px;
+    font-size: 0.725rem;
   }
 }
 
@@ -159,8 +150,8 @@
   .footer-top .footer-nav {
     flex-direction: column;
     justify-content: center;
-    gap: 16px;
-    margin-top: 35px;
+    gap: 1rem;
+    margin-top: 2.188rem;
   }
 }
 </style>

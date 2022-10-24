@@ -11,12 +11,19 @@
               <span class="nav-link dropdown-toggle">Paid Surveys</span>
               <div class="dropdown-menu">
                 <a class="dropdown-item" href="">Bitlabs</a>
-                <a class="dropdown-item" href="">CPX-Research<span id="countcpxsurveys"><i
-                      class="fas fa-spinner fa-spin"></i></span></a>
-                <a class="dropdown-item" href="">Pollfish<span id="countpollfish"><i
-                      class="fas fa-spinner fa-spin"></i></span></a>
-                <a class="dropdown-item" href="">YourSurveys<span id="countyoursurveys"><i
-                      class="fas fa-spinner fa-spin"></i></span></a>
+                <a class="dropdown-item" href=""
+                  >CPX-Research<span id="countcpxsurveys"
+                    ><font-awesome-icon
+                      icon="fa-solid fa-spinner fa-spin" /></span
+                ></a>
+                <a class="dropdown-item" href=""
+                  >Pollfish<span id="countpollfish"
+                    ><font-awesome-icon icon="fa-solid fa-spinner" /></span
+                ></a>
+                <a class="dropdown-item" href=""
+                  >YourSurveys<span id="countyoursurveys"
+                    ><font-awesome-icon icon="fa-solid fa-spinner" /></span
+                ></a>
                 <a class="dropdown-item" href="">Wannads</a>
               </div>
             </li>
@@ -54,107 +61,52 @@
         </div>
         <div class="search-bottom">
           <SearchDropdown>
-            <span slot="toggle">
-              Job Level
-            </span>
+            <span slot="toggle"> Job Level </span>
             <template slot="content">
-              <div class="page-filter__option">
-                <Checkbox name="level" id="pageFiltersCategory-starter">Starter</Checkbox>
-              </div>
-              <div class="page-filter__option">
-                <Checkbox name="level" id="pageFiltersCategory-advanced">Advanced</Checkbox>
-              </div>
-              <div class="page-filter__option">
-                <Checkbox name="level" id="pageFiltersCategory-expert">Expert</Checkbox>
+              <div
+                class="page-filter__option"
+                v-for="joblevel in data.joblevels"
+                :key="joblevel.id"
+              >
+                <Checkbox :forV="'pageFiltersLevel' + joblevel.id"
+                  ><template slot="input">
+                    <input
+                      type="checkbox"
+                      name="level"
+                      :id="'pageFiltersLevel' + joblevel.id"
+                    />
+                  </template>
+                  {{ joblevel.level }}
+                </Checkbox>
               </div>
             </template>
           </SearchDropdown>
-          <SearchDropdown>
-            <span slot="toggle">
-              Category
-            </span>
+          <SearchDropdown class="custom-scroll">
+            <span slot="toggle"> Category </span>
             <template slot="content">
-              <div class="page-filter__option">
-                <CustomRadio name="category" id="pageFiltersCategory1">Sign up</CustomRadio>
-              </div>
-              <div class="page-filter__option">
-                <CustomRadio name="category" id="pageFiltersCategory2">SEO + Promote Content + Search + Engage</CustomRadio>
-              </div>
-              <div class="page-filter__option">
-                <CustomRadio name="category" id="pageFiltersCategory3">Data Entry, Collection, Extraction</CustomRadio>
-              </div>
-              <div class="page-filter__option">
-                <CustomRadio name="category" id="pageFiltersCategory4">Telegram</CustomRadio>
-              </div>
-              <div class="page-filter__option">
-                <CustomRadio name="category" id="pageFiltersCategory5">Discord</CustomRadio>
-              </div>
-              <div class="page-filter__option">
-                <CustomRadio name="category" id="pageFiltersCategory16">TikTok</CustomRadio>
-              </div>
-              <div class="page-filter__option">
-                <CustomRadio name="category" id="pageFiltersCategory7">Video Marketing</CustomRadio>
-              </div>
-              <div class="page-filter__option">
-                <CustomRadio name="category" id="pageFiltersCategory8">Facebook Micro-Influencer</CustomRadio>
-              </div>
-              <div class="page-filter__option">
-                <CustomRadio name="category" id="pageFiltersCategory9">Twitter Micro-Influencer</CustomRadio>
-              </div>
-              <div class="page-filter__option">
-                <CustomRadio name="category" id="pageFiltersCategory10">Instagram Micro-Influencer</CustomRadio>
-              </div>
-              <div class="page-filter__option">
-                <CustomRadio name="category" id="pageFiltersCategory11">Promotion (Voting &amp;Rating)</CustomRadio>
-              </div>
-              <div class="page-filter__option">
-                <CustomRadio name="category" id="pageFiltersCategory12">Reddit</CustomRadio>
-              </div>
-              <div class="page-filter__option">
-                <CustomRadio name="category" id="pageFiltersCategory13">Yahoo Answers/Answerbag/Quora...(other)</CustomRadio>
-              </div>
-              <div class="page-filter__option">
-                <CustomRadio name="category" id="pageFiltersCategory14">Forums</CustomRadio>
-              </div>
-              <div class="page-filter__option">
-                <CustomRadio name="category" id="pageFiltersCategory15">Computer programs (PC)</CustomRadio>
-              </div>
-              <div class="page-filter__option">
-                <CustomRadio name="category" id="pageFiltersCategory16">Comment on Other Blogs</CustomRadio>
-              </div>
-              <div class="page-filter__option">
-                <CustomRadio name="category" id="pageFiltersCategory17">Write an honest review (Service, Product)</CustomRadio>
-              </div>
-              <div class="page-filter__option">
-                <CustomRadio name="category" id="pageFiltersCategory18">Write an Article</CustomRadio>
-              </div>
-              <div class="page-filter__option">
-                <CustomRadio name="category" id="pageFiltersCategory19">Mobile Applications (iPhone &amp;Android)</CustomRadio>
-              </div>
-              <div class="page-filter__option">
-                <CustomRadio name="category" id="pageFiltersCategory20">Blog/Website Owners</CustomRadio>
-              </div>
-              <div class="page-filter__option">
-                <CustomRadio name="category" id="pageFiltersCategory21">Leads</CustomRadio>
-              </div>
-              <div class="page-filter__option">
-                <CustomRadio name="category" id="pageFiltersCategory22">Surveys / Offers</CustomRadio>
-              </div>
-              <div class="page-filter__option">
-                <CustomRadio name="category" id="pageFiltersCategory23">Qualification</CustomRadio>
-              </div>
-              <div class="page-filter__option">
-                <CustomRadio name="category" id="pageFiltersCategory24">Other</CustomRadio>
+              <div
+                class="page-filter__option"
+                v-for="category in data.categories"
+                :key="category.id"
+              >
+                <CustomRadio :forV="'pageFiltersCategory' + category.id">
+                  <template>
+                    <input
+                      type="radio"
+                      name="category"
+                      :id="'pageFiltersCategory' + category.id"
+                    />
+                  </template>
+                  {{ category.opt }}</CustomRadio
+                >
               </div>
             </template>
           </SearchDropdown>
           <SearchDropdown none="sub-cat">
             <span slot="toggle">Sub Category</span>
           </SearchDropdown>
-          <SearchDropdown>
-            <span slot="toggle">
-              Payment
-            </span>
+          <SearchDropdown class="previosLast">
+            <span slot="toggle"> Payment </span>
             <template slot="content">
               <div>
                 <p><strong>Price Range</strong></p>
@@ -162,65 +114,47 @@
               </div>
             </template>
           </SearchDropdown>
-          <SearchDropdown>
-            <span slot="toggle">
-              Location
-            </span>
+          <SearchDropdown class="previosLast">
+            <span slot="toggle"> Location </span>
             <template slot="content">
               <div class="two-cols">
-                <div class="page-filter__option">
-                  <Checkbox name="location" id="pageFiltersSubCategoryafrica1">Africa</Checkbox>
-                </div>
-                <div class="page-filter__option">
-                  <Checkbox name="location" id="pageFiltersSubCategoryarab1">Arab Countries</Checkbox>
-                </div>
-                <div class="page-filter__option">
-                  <Checkbox name="location" id="pageFiltersSubCategoryasia1">Asia</Checkbox>
-                </div>
-                <div class="page-filter__option">
-                  <Checkbox name="location" id="pageFiltersSubCategorycaribbean1">Caribbean</Checkbox>
-                </div>
-                <div class="page-filter__option">
-                  <Checkbox name="location" id="pageFiltersSubCategoryeurope1">Europe West</Checkbox>
-                </div>
-                <div class="page-filter__option">
-                  <Checkbox name="location" id="pageFiltersSubCategoryeurope2">Europe East</Checkbox>
-                </div>
-                <div class="page-filter__option">
-                  <Checkbox name="location" id="pageFiltersSubCategoryint">International</Checkbox>
-                </div>
-                <div class="page-filter__option">
-                  <Checkbox name="location" id="pageFiltersSubCategorylatin">Latin America</Checkbox>
-                </div>
-                <div class="page-filter__option">
-                  <Checkbox name="location" id="pageFiltersSubCategorymuslim">Muslim Countries</Checkbox>
-                </div>
-                <div class="page-filter__option">
-                  <Checkbox name="location" id="pageFiltersSubCategorywest1">USA &amp; Western</Checkbox>
+                <div
+                  class="page-filter__option"
+                  v-for="location in data.locations"
+                  :key="location.id"
+                >
+                  <Checkbox :forV="'pageFilterLocation' + location.id">
+                    <template slot="input">
+                      <input
+                        type="checkbox"
+                        name="location"
+                        :id="'pageFilterLocation' + location.id"
+                      />
+                    </template>
+                    {{ location.loca }}</Checkbox
+                  >
                 </div>
               </div>
             </template>
           </SearchDropdown>
-          <SearchDropdown>
-            <span slot="toggle">
-              Emp. Stats
-            </span>
+          <SearchDropdown class="lastChild">
+            <span slot="toggle"> Emp. Stats </span>
             <template slot="content">
-              <div class="page-filter__option">
-                <CustomRadio name="category" id="pageFiltersEmpStatsjobs-low">Successful jobs - Low to High</CustomRadio>
-              </div>
-              <div class="page-filter__option">
-                <CustomRadio name="category" id="pageFiltersEmpStatsjobs-high">Successful jobs - High to
-                  Low</CustomRadio>
-              </div>
-              <div class="page-filter__option">
-                <CustomRadio name="category" id="pageFiltersEmpStatssatisfied-low">% tasks rated satisfied -
-                  Low to High</CustomRadio>
-              </div>
-              <div class="page-filter__option">
-                <CustomRadio name="category" id="pageFiltersEmpStatssatisfied-high">% tasks rated satisfied
-                  -
-                  High to Low</CustomRadio>
+              <div
+                class="page-filter__option"
+                v-for="empS in data.empStats"
+                :key="empS.id"
+              >
+                <CustomRadio :forV="'pageFiltersEmpStats' + empS.id">
+                  <template>
+                    <input
+                      type="radio"
+                      name="category"
+                      :id="'pageFiltersEmpStats' + empS.id"
+                    />
+                  </template>
+                  {{ empS.emp }}
+                </CustomRadio>
               </div>
             </template>
           </SearchDropdown>
@@ -228,18 +162,25 @@
       </div>
       <div id="jobs-content">
         <div class="results">
-          <p class="results-bar__total"><span id="job-search-results">713</span>results</p>
+          <p class="results-bar__total">
+            <span id="job-search-results">713</span>results
+          </p>
           <div class="results-search">
             <div class="list-filter">
-              <input type="text" class="form-control" placeholder="Search job and press enter..." value="" />
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Search job and press enter..."
+                value=""
+              />
             </div>
 
-            <div class="list-filter dropdown"  @click="toggle()">
+            <div class="list-filter dropdown" @click="toggle()">
               <a class="dropdown-toggle dropdown-sortby" href="#">
                 Sort by <span class="dropdown-sortby__sep">/</span>
                 <span class="dropdown-sortby__selection"> Most Recent </span>
               </a>
-              <div class="dropdown-menu" :class="{show: dropdown}">
+              <div class="dropdown-menu" :class="{ show: dropdown }">
                 <a class="dropdown-item active">Most Recent</a>
                 <a class="dropdown-item">Highest Paying</a>
                 <a class="dropdown-item">Crypto Verified Accounts</a>
@@ -260,48 +201,222 @@
   </div>
 </template>
 <script>
-import DetailJobs from './DetailJobs.vue'
-import Checkbox from '../common/Checkbox.vue';
-import SearchDropdown from './SearchDropdown.vue';
-import CustomRadio from '../common/CustomRadio.vue';
-import InputRange from '../common/InputRange.vue';
+import DetailJobs from "./DetailJobs.vue";
+import Checkbox from "../common/Checkbox.vue";
+import SearchDropdown from "./SearchDropdown.vue";
+import CustomRadio from "../common/CustomRadio.vue";
+import InputRange from "../common/InputRange.vue";
 export default {
   components: {
     DetailJobs,
     Checkbox,
     SearchDropdown,
     CustomRadio,
-    InputRange
-},
+    InputRange,
+  },
   data() {
     return {
       dropdown: false,
-    }
+      data: {
+        joblevels: [
+          {
+            id: 1,
+            level: "Starter",
+          },
+          {
+            id: 2,
+            level: "Advanced",
+          },
+          {
+            id: 3,
+            level: "Expert",
+          },
+        ],
+        categories: [
+          {
+            id: 1,
+            opt: "Sign up",
+          },
+          {
+            id: 2,
+            opt: "SEO + Promote Content + Search + Engage",
+          },
+          {
+            id: 3,
+            opt: "Data Entry, Collection, Extraction",
+          },
+          {
+            id: 4,
+            opt: "Telegram",
+          },
+          {
+            id: 5,
+            opt: "Discord",
+          },
+          {
+            id: 6,
+            opt: "TikTok",
+          },
+          {
+            id: 7,
+            opt: "Video Marketing",
+          },
+          {
+            id: 8,
+            opt: "Facebook Micro-Influencer",
+          },
+          {
+            id: 9,
+            opt: "Twitter Micro-Influencer",
+          },
+          {
+            id: 10,
+            opt: "Instagram Micro-Influencer",
+          },
+          {
+            id: 11,
+            opt: "Promotion (Voting & Rating)",
+          },
+          {
+            id: 12,
+            opt: "Reddit",
+          },
+          {
+            id: 13,
+            opt: "Yahoo Answers/Answerbag/Quora...(other)",
+          },
+          {
+            id: 14,
+            opt: "Forums",
+          },
+          {
+            id: 15,
+            opt: "Computer programs (PC)",
+          },
+          {
+            id: 16,
+            opt: "Comment on Other Blogs",
+          },
+          {
+            id: 17,
+            opt: "Write an honest review (Service, Product)",
+          },
+          {
+            id: 18,
+            opt: "Write an Article",
+          },
+          {
+            id: 19,
+            opt: "Mobile Applications (iPhone & Android)",
+          },
+          {
+            id: 20,
+            opt: "Blog/Website Owners",
+          },
+          {
+            id: 21,
+            opt: "Leads",
+          },
+          {
+            id: 22,
+            opt: "Surveys / Offers",
+          },
+          {
+            id: 23,
+            opt: "Qualification",
+          },
+          {
+            id: 24,
+            opt: "Other",
+          },
+        ],
+        locations: [
+          {
+            id: 1,
+            loca: "Africa",
+          },
+          {
+            id: 2,
+            loca: "Arab Countries",
+          },
+          {
+            id: 3,
+            loca: "Asia",
+          },
+          {
+            id: 4,
+            loca: "Caribbean",
+          },
+          {
+            id: 5,
+            loca: "Europe West",
+          },
+          {
+            id: 6,
+            loca: "Europe East",
+          },
+          {
+            id: 7,
+            loca: "International",
+          },
+          {
+            id: 8,
+            loca: "Latin America",
+          },
+          {
+            id: 9,
+            loca: "Muslim Countries",
+          },
+          {
+            id: 10,
+            loca: "USA & Western",
+          },
+        ],
+        empStats: [
+          {
+            id: 1,
+            emp: "Successful jobs - Low to High",
+          },
+          {
+            id: 2,
+            emp: "Successful jobs - High to",
+          },
+          {
+            id: 3,
+            emp: "% tasks rated satisfied - Low to High",
+          },
+          {
+            id: 4,
+            emp: "% tasks rated satisfied - High to Low",
+          },
+        ],
+      },
+    };
   },
   methods: {
     toggle() {
       this.dropdown = !this.dropdown;
-    }
-  }
-}
+    },
+  },
+};
 </script>
 <style lang="scss" scoped>
-@import '@/assets/css/style.scss';
+@import "@/assets/css/style.scss";
 
 #joblist {
   padding: 47px calc((100% - 1086px) / 2);
-  font-family: $base-font-family;
+  font-family: $base_font_family;
   font-weight: $light;
-  font-size: 16px;
+  font-size: 1rem;
   color: $white;
 }
 
 #checkbox label {
-  padding-top: 4px;
+  padding-top: 0.25rem;
 }
 
 .search {
-  margin-bottom: 25px;
+  margin-bottom: 1.5625rem;
 
   &-top {
     display: flex;
@@ -316,7 +431,7 @@ export default {
 
       li {
         display: block;
-        padding: 8px 16px;
+        padding: 8px 1rem;
         color: $gray;
         border-top-left-radius: 4px;
         border-top-right-radius: 4px;
@@ -327,9 +442,9 @@ export default {
         }
 
         a {
-          font-family: $base-font-family;
+          font-family: $base_font_family;
           font-weight: $light;
-          font-size: 16px;
+          font-size: 1rem;
           text-decoration: none;
           color: $white;
 
@@ -365,11 +480,11 @@ export default {
           min-width: 160px;
           box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
           z-index: 1;
-          margin-top: 8px;
+          margin-top: 0.5rem;
 
           a {
-            color: black;
-            padding: 12px 16px;
+            color: $black;
+            padding: 0.75rem 1rem;
             text-decoration: none;
             display: block;
             font-size: 13px;
@@ -390,7 +505,7 @@ export default {
     }
 
     .layout-list {
-      padding: 5px;
+      padding: 0.3125rem;
       border: none;
       background: $white;
 
@@ -406,32 +521,31 @@ export default {
         background-color: $color-title;
         opacity: 0.3;
         border-radius: 1px;
-        margin-top: 2px;
+        margin-top: 0.125rem;
 
         &:first-child {
           margin-top: 0;
         }
       }
-
     }
 
     .layout-list--lg .layout-list__item {
       height: 6px;
-      margin-top: 2px;
+      margin-top: 0.125rem;
     }
 
     .layout-list--md .layout-list__item {
       height: 4px;
-      margin-top: 1px;
+      margin-top: 0.0625rem;
     }
 
     .layout-list--sm .layout-list__item {
-      margin-top: 1px;
+      margin-top: 0.0625rem;
     }
 
     .active {
       .layout-list__item {
-        background: #000000;
+        background: $black;
         opacity: 1;
       }
     }
@@ -441,12 +555,10 @@ export default {
     display: flex;
     justify-content: space-between;
     background: $color-backgroud-header;
-
   }
 }
-
 #jobs-content {
-  color: #000000;
+  color: $black;
   font-weight: $light;
   font-size: 14px;
 }
@@ -458,79 +570,81 @@ export default {
   &-bar__total {
     display: flex;
     align-items: center;
-    margin-right: 20px;
+    margin-right: 1.25rem;
 
     span {
-      margin-right: 5px;
+      margin-right: 0.3125rem;
     }
   }
 
   .results-search {
     .list-filter input:focus {
-    border-bottom: 1px solid $accent !important;
+      border-bottom: 1px solid $accent !important;
+    }
 
-  }
-  .dropdown {
-    position: relative;
-    display: inline-block;
+    .dropdown {
+      position: relative;
+      display: inline-block;
 
-    .dropdown-menu {
+      .dropdown-menu {
         display: none;
         position: absolute;
         background-color: $white;
         box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
         z-index: 1;
-        margin-top: 8px;
+        margin-top: 0.5rem;
         top: 45px;
         min-width: 232px;
         left: 0;
         box-sizing: border-box;
 
         .dropdown-item {
-            display: block;
-            width: 100%;
-            padding: 15px 19px;
-            font-weight: 400;
-            clear: both;
-            text-align: inherit;
-            white-space: nowrap;
-            font-family: $base-font-family;
-            font-size: 14px;
-            font-weight: 300;
-            color: #686d77 !important;
-            text-decoration: none;
-            border: none;
-            
-            &:hover,
-            &:active {
-                color: #22ab59 !important;
-                font-weight: bold;
-            }
-        }
-        .active {
-            color: #22ab59 !important;
+          display: block;
+          width: 100%;
+          padding: 0.9375rem 19px;
+          font-weight: 400;
+          clear: both;
+          text-align: inherit;
+          white-space: nowrap;
+          font-family: $base_font_family;
+          font-size: 14px;
+          font-weight: 300;
+          color: $gray-darker !important;
+          text-decoration: none;
+          border: none;
+
+          &:hover,
+          &:active {
+            color: $accent !important;
             font-weight: bold;
-        } 
-        
-    &:hover .dropdown-menu {
-        display: block;
-    }  
+          }
+        }
+
+        .active {
+          color: $accent !important;
+          font-weight: bold;
+        }
+
+        &:hover .dropdown-menu {
+          display: block;
+        }
+      }
+
+      .show {
+        display: block !important;
+      }
     }
-    .show{
-      display: block !important;
-    }
-}
   }
 
   &-search {
     display: flex;
 
     .list-filter {
-      padding: 10px 0 11px 12px;
+      padding: 0.625rem 0 0.6875rem 0.75rem;
 
       input {
         outline: none;
-        padding: 10px 11px 12px;
+        padding: 0.625rem 0.6875rem 0.75rem;
         border: none;
         background: $color-backgroud-header;
 
@@ -544,29 +658,28 @@ export default {
         border-bottom: 1px solid $accent !important;
       }
 
-
       &:last-child {
         display: flex;
         align-items: center;
         font-weight: 600;
-        padding-left: 23px;
+        padding-left: 1.438rem;
 
         a {
           text-decoration: none;
           color: $black;
 
           span {
-            color: gray;
+            color: $gray;
           }
 
           .dropdown-sortby__selection {
-            color: #22ab63;
+            color: $accent;
             font-weight: $bold;
 
             &::after {
               color: #a8b0bf;
               vertical-align: middle;
-              margin-top: -2px;
+              margin-top: -0.125rem;
               display: inline-block;
               margin-left: 0.255em;
               content: "";
@@ -581,6 +694,7 @@ export default {
     }
   }
 }
+
 @media screen and (max-width: 768px) {
   .search {
     &-bottom {
@@ -623,7 +737,6 @@ export default {
 @media screen and (max-width: 600px) {
   .search {
     &-bottom {
-
       .dropdown {
         max-width: none;
       }
@@ -634,17 +747,15 @@ export default {
 @media screen and (max-width: 576px) {
   .search {
     &-bottom {
-
       .page-filter {
         width: 100%;
         border-bottom: 1px solid #e2e8f4;
 
         &::after {
-          background-color: #f5f7fa;
+          background-color: $color-backgroud-header;
         }
       }
     }
   }
-
 }
 </style>

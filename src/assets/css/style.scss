@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap");
+
 $body-font: "Roboto";
 // Font Weights
 $thin: 100;
@@ -8,10 +10,9 @@ $bold: 700;
 $ultra: 800;
 
 // Base Font
-$base-font-family: $body-font, sans-serif;
-$base-font-size: 14px;
+$base_font_family: $body-font, sans-serif;
+$base-font-size: 0.875rem;
 $base-font-weight: $regular;
-$base-line-height: 1.6em;
 
 // Colors
 $black: #000000;
@@ -19,87 +20,141 @@ $dark-gray: rgba($black, 0.8);
 $gray: rgb(168, 176, 191);
 $light-gray: rgba($black, 0.4);
 $lighter-gray: rgba($black, 0.2);
+$gray-darker: #686d77;
 $white: #ffffff;
 $accent: #22ab59;
 $light-accent: #15d164;
 $color-title: #203259;
 $color-backgroud-header: #f5f7fa;
-// Form Settings
-$max-width: 600px;
-$max-height: 400px;
-$gutters: 24px;
+$color-dark: #1b1b1b;
+$color-border-light: #d3dae6;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: $base_font_family;
+  font-weight: $regular;
+  font-size: $base-font-size;
+}
+
+a {
+  text-decoration: none;
+  font-family: $base_font_family;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+ul,
+li {
+  list-style: none;
+  align-items: center;
+}
+
+h2 {
+  font-weight: $bold;
+  font-size: 1.688rem;
+  color: $color-title;
+  margin: 0;
+  padding-bottom: 1.875rem;
+}
+
+.error {
+  display: block;
+  color: rgb(231, 21, 21);
+  margin: 0.3125rem 0 0.5rem;
+  padding-left: 0.3125rem;
+  font-size: 0.75rem;
+}
+
 .container {
-    padding: 0 20px;
+  padding: 0 1.25rem;
 }
+
 .symbol {
-    display: inline-block;
-    vertical-align: middle;
-    min-height: 16px;
-    min-width: 16px;
-    border-radius: 2px;
-    line-height: 16px;
-    text-align: center;
-    font-size: 10px;
-    font-weight: bold;
-    padding: 0 3px;
+  display: inline-block;
+  vertical-align: middle;
+  min-height: 16px;
+  min-width: 16px;
+  border-radius: 2px;
+  line-height: 16px;
+  text-align: center;
+  font-size: 0.625rem;
+  font-weight: bold;
+  padding: 0 3px;
 }
+
 .symbol--warning {
-    background-color: #fff3cd !important;
-    color: #de9100 !important;
+  background-color: #fff3cd !important;
+  color: #de9100 !important;
 }
+
 .zawp-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
 .zawp-toggle__switch {
-    width: 30px;
-    height: 12px;
-    border-radius: 50em;
-    border: 2px solid #cff6df;
-    background-color: #cff6df;
-    position: relative;
-    margin: 0 8px;
+  width: 30px;
+  height: 0.9375rem;
+  border-radius: 50em;
+  border: 2px solid #cff6df;
+  background-color: #cff6df;
+  position: relative;
+  margin: 0 0.5rem;
 }
+
 .zawp-toggle.zawp-toggle--checked-last .zawp-toggle__switch:before {
-    left: 100%;
-    margin-left: -11px;
+  left: 100%;
+  margin-left: -0.6875rem;
 }
+
 .zawp-toggle .zawp-toggle__switch:before {
-    content: "";
-    position: absolute;
-    left: 0;
-    margin-left: 0;
-    top: 0;
-    width: 11px;
-    height: 11px;
-    border-radius: 50em;
-    background-color: $light-accent;
-    transition: 0.25s ease all;
+  content: "";
+  position: absolute;
+  left: 0;
+  margin-left: 0;
+  top: 0;
+  width: 11px;
+  height: 11px;
+  border-radius: 50em;
+  background-color: $light-accent;
+  transition: 0.25s ease all;
 }
 
 .custom-checkbox-btn--success {
-        background-color: #e7faef !important;
-        font-weight: bold;
-        color: $accent !important;
-        border-color: rgba(0, 0, 0, 0);
-        box-shadow: 0 4px 10px rgb(77 35 16 / 19%);
-        label {
-            color: $accent !important;
-        }
+  background-color: #e7faef !important;
+  font-weight: bold;
+  color: $accent !important;
+  border-color: rgba(0, 0, 0, 0);
+  box-shadow: 0 4px 10px rgb(77 35 16 / 19%);
+
+  label {
+    color: $accent !important;
+  }
 }
-/* width */
-::-webkit-scrollbar {
+
+.custom-scroll {
+  /* width */
+  ::-webkit-scrollbar {
     width: 7px;
   }
 
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    background: rgb(99, 98, 98); 
-    border-radius: 10px;
+    background: rgb(99, 98, 98);
+    border-radius: 0.625rem;
+    height: 100px;
   }
-  
+
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
-    background: #2e2d2d; 
+    background: #2e2d2d;
   }
+}

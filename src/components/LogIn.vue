@@ -2,62 +2,106 @@
   <div id="logIn">
     <div class="container">
       <h2>Login</h2>
-      <form action="">
+      <form action="" @submit.prevent="submitForm">
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="text" id="email" name="email" required placeholder="Type your response here" />
+          <input
+            type="text"
+            id="email"
+            name="email"
+            v-model="email"
+            placeholder="Type your response here"
+          />
+          <span class="error" v-if="emailIsValid && submit">{{
+            msg.email
+          }}</span>
         </div>
         <div class="form-group">
           <label for="password">Password</label>
-          <input type="password" id="password" name="password" required placeholder="Type your response here" />
+          <input
+            type="password"
+            id="password"
+            name="password"
+            v-model.number="password"
+            placeholder="Type your response here"
+          />
+          <span class="error" v-if="passwordIsValid && submit">{{
+            msg.password
+          }}</span>
         </div>
         <div class="form-group">
-          <Checkbox name="Remember" id="remember" for="remember">Remember Me</Checkbox>
-          <router-link class="form-recovery" to="/forgotpassword">Forgot Password?</router-link>
+          <Checkbox forV="remember" @click="lsRememberMe()"
+            ><template slot="input">
+                <input type="checkbox" name="Remember" id="remember"/>
+              </template>
+            Remember Me</Checkbox
+          >
+          <router-link class="form-recovery" :to="{ name: 'forgotpassword'}"
+            >Forgot Password?</router-link
+          >
         </div>
         <div class="form-group">
           <button type="submit">
-            <router-link to="/joblist" @click="login">Log In</router-link>
+            <a>Log In</a>
           </button>
         </div>
         <div class="create-account">
           <span>New to SproutGigs? </span>
-          <router-link to="/signup" class="create-account-link">Create an account</router-link>
+          <router-link :to="{ name: 'signup'}" class="create-account-link"
+            >Create an account</router-link
+          >
         </div>
       </form>
     </div>
   </div>
 </template>
 <script>
-import Checkbox from './common/Checkbox.vue';
-export default{
+import Checkbox from "./common/Checkbox.vue";
+import submitForm from "@/components/mixins/mixinValidate";
+import axios from 'axios';
+
+export default {
+  data(){
+    return{
+    }
+  },
+  mixins: [submitForm],
   components: {
-    Checkbox
+    Checkbox,
   },
   methods:{
-      login(){
-    }
+    formIsValid() {
+    return this.emailIsValid && this.passwordIsValid;
+  },
+  async submitForm() {
+      this.submit = true;
+      try {
+        const credentials = {
+          email: this.email,
+          password: this.password,
+        };
+        const response = await axios.post('/auth/login/', credentials);
+        console.log(response)
+        const token = response.data.data.token;
+        const user = response.data.data.user;
+        this.$store.dispatch('login', { token, user });
+        this.$router.push('/joblist');
+      } catch (error) {
+        this.formIsValid();
+        console.log(error)
+      }
+    },
   }
-}
+};
 </script>
 <style lang="scss" scoped>
-@import '@/assets/css/style.scss';
+@import "@/assets/css/style.scss";
 
 #logIn {
-  max-width: 520px;
+  max-width: 32.5rem;
   margin: 0 auto;
-  padding-top: 70px;
-  font-family: $base-font-family;
-  padding-bottom: 80px;
-}
-
-h2 {
-  font-family: $base-font-family;
-  font-weight: $bold;
-  font-size: 27px;
-  color: $color-title;
-  margin: 0;
-  padding-bottom: 30px;
+  padding-top: 4.375rem;
+  padding-bottom: 5rem;
 }
 
 .form {
@@ -65,16 +109,14 @@ h2 {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    margin: 0 0 30px;
+    margin: 0 0 1.875rem;
     align-items: center;
 
     label {
       display: block;
-      margin: 0 0 10px;
+      margin: 0 0 0.625rem;
       color: $gray;
-      font-size: 14px;
       font-weight: $semibold;
-      font-family: $base-font-family;
     }
 
     input {
@@ -84,11 +126,9 @@ h2 {
       width: 100%;
       border: 0;
       box-sizing: border-box;
-      padding: 10px 11px 12px;
+      padding: 0.625rem 0.6875rem 0.75rem;
       color: $color-title;
-      font-family: $base-font-family;
-      font-size: 15px;
-      font-weight: $regular;
+      font-size: 0.9375rem;
       line-height: inherit;
       transition: 0.3s ease;
 
@@ -103,14 +143,18 @@ h2 {
       background: $accent;
       width: 100%;
       border: 0;
-      border-radius: 4px;
-      padding: 12px 20px;
+      border-radius: 0.25rem;
+      padding: 0.75rem 1.25rem;
       font-family: inherit;
       font-size: inherit;
       font-weight: $semibold;
       line-height: inherit;
       text-transform: uppercase;
       cursor: pointer;
+
+      &:disabled {
+        background: $gray;
+      }
 
       a {
         color: $white;
@@ -119,9 +163,7 @@ h2 {
     }
 
     .form-remember {
-      font-weight: $regular;
       letter-spacing: 0;
-      font-size: 14px;
       color: rgb(27, 27, 27);
       line-height: 21px;
       text-decoration: none;
@@ -130,7 +172,7 @@ h2 {
       input[type="checkbox"] {
         display: inline-block;
         width: auto;
-        margin: 0 10px 0 0;
+        margin: 0 0.625rem 0 0;
       }
 
       &:last-child {
@@ -140,7 +182,6 @@ h2 {
 
     .form-recovery {
       color: $accent;
-      font-size: 14px;
       color: rgb(34, 171, 89);
       text-decoration: underline;
       transform: none;
@@ -150,12 +191,12 @@ h2 {
 
   // Header
   &-header {
-    margin: 0 0 40px;
+    margin: 0 0 2.5rem;
 
     h1 {
-      padding: 4px 0;
+      padding: 0.25rem 0;
       color: $accent;
-      font-size: 24px;
+      font-size: 1.5rem;
       font-weight: $bold;
       text-transform: uppercase;
     }
@@ -163,9 +204,7 @@ h2 {
 
   &-footer {
     font-weight: $bold;
-    size: 14px;
-    color: rgb(255, 255, 255);
-    text-decoration: none;
+    color: $white;
     transform: uppercase;
   }
 }
@@ -175,17 +214,15 @@ form .form-group:nth-child(3) {
 }
 
 form .form-group:nth-child(4) {
-  margin-bottom: 16px;
+  margin-bottom: 1rem;
 }
 
 .create-account {
   text-align: center;
-  font-size: 14px;
 }
 
 .create-account-link {
   color: $accent;
-  size: 14px;
   transform: none;
   letter-spacing: 0;
 }

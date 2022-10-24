@@ -8,11 +8,10 @@
             <span>FEATURED</span>
           </h3>
           <div class="job-bar__actions">
-            <button class="job-bar__quick-view">
-              <i class="fas fa-external-link-alt"></i>
+            <button class="job-bar__quick-view"><font-awesome-icon icon="fa-solid fa-external-link-alt" />
             </button>
             <button class="job-bar__quick-view">
-              <i class="fas fa-eye-slash"></i>
+              <font-awesome-icon icon="fa-solid fa-eye-slash" />
             </button>
           </div>
         </div>
@@ -35,10 +34,10 @@
           </div>
           <div class="job-bar__user">
             <div class="jobs__item-cell jobs__item-cell--success">
-              <i class="fas fa-lock"></i>
+              <font-awesome-icon icon="fa-solid fa-lock" />
             </div>
             <div class="jobs__item-cell jobs__item-cell--success">
-              <i class="fas fa-lock"></i>
+              <font-awesome-icon icon="fa-solid fa-lock" />
             </div>
           </div>
           <div class="job-bar__progress">
@@ -65,7 +64,7 @@
 @import '../../assets/css/style.scss';
 
 #detailjob {
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
 }
 
 a {
@@ -78,7 +77,7 @@ a {
   background-position: right center;
   background-size: auto 100%;
   background-color: #fbf9ff;
-  padding: 20px 32px;
+  padding: 1.25rem 2rem;
   border: 1px solid #f0f2f5;
   border-left: 2px solid #6a2af5;
   border-radius: 5px;
@@ -90,16 +89,16 @@ a {
   .job-bar__header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 16px;
+    margin-bottom: 1rem;
 
     .job-bar__heading {
-      padding-top: 4px;
+      padding-top: 0.25rem;
       font-weight: 500;
       font-size: 15.4px;
       color: $color-title;
 
       span:nth-child(2) {
-        margin-left: 12px;
+        margin-left: 0.75rem;
         background-color: #6a2af5;
         color: $white;
         display: inline-block;
@@ -109,9 +108,9 @@ a {
         border-radius: 2px;
         line-height: 16px;
         text-align: center;
-        font-size: 10px;
+        font-size: 0.625rem;
         font-weight: bold;
-        padding: 0 3px;
+        padding: 0 0.1875rem;
       }
     }
 
@@ -119,8 +118,9 @@ a {
       button {
         border: none;
         background: transparent;
-        font-size: 16px;
+        font-size: 1rem;
         color: #686f89;
+        padding: 0.375rem;
       }
     }
   }
@@ -134,12 +134,12 @@ a {
     .job-bar__info {
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 1.25rem;
 
       span {
         display: flex;
         align-items: center;
-        color: gray;
+        color: $gray;
 
         span {
           &:first-child {
@@ -152,14 +152,14 @@ a {
             border-radius: 2px;
             line-height: 16px;
             text-align: center;
-            font-size: 10px;
+            font-size: 0.625rem;
             font-weight: bold;
-            padding: 0 3px;
-            margin-right: 4px;
+            padding: 0 0.1875rem;
+            margin-right: 0.25rem;
           }
 
           &:last-child {
-            color: #686d77;
+            color: $gray-darker;
             font-weight: 500;
           }
         }
@@ -168,20 +168,21 @@ a {
 
     .job-bar__user {
       flex-basis: 150px;
+
       div {
-        color: #686d77;
-        padding: 10px;
+        color: $gray-darker;
+        padding: 0.625rem;
         display: flex;
         align-items: center;
       }
     }
 
     .job-bar__progress {
-      color: #1b1b1b;
+      color: $color-dark;
       flex-basis: 120px;
 
       p {
-        margin-bottom: 16px;
+        margin-bottom: 1rem;
 
         strong {
           font-weight: 500;
@@ -206,7 +207,7 @@ a {
     }
 
     .job-bar__rate {
-      color: #1b1b1b;
+      color: $color-dark;
 
       .job-bar__price {
         text-align: right;
@@ -215,7 +216,7 @@ a {
           display: inline-block;
           font-size: 17px;
           font-weight: 400;
-          padding-top: 4px;
+          padding-top: 0.25rem;
           vertical-align: top;
         }
 
@@ -227,9 +228,9 @@ a {
       }
 
       p {
-        color: #686d77;
+        color: $gray-darker;
         font-weight: 500;
-        padding-top: 8px;
+        padding-top: 0.5rem;
       }
     }
   }
