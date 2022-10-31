@@ -1,31 +1,21 @@
 <template>
-  <div
-    class="country-item"
-    :class="{ 'custom-checkbox-btn--success': isActive }"
-    @click="activeChange()"
-  >
-    <input type="checkbox" :name="name" :id="id" :value="value" />
-    <label class="nameCountry">{{ value }}</label>
+  <div class="country-item">
+    <slot name="input"></slot>
+    <label class="nameCountry" :for="forV">{{ value }}</label>
   </div>
 </template>
 <script>
-import activeChange from "@/components/mixins/mixinToggle";
 export default {
   props: {
-    name: {
-      type: String,
-      required: true,
-    },
-    id: {
-      type: String,
-      required: true,
-    },
     value: {
       type: String,
       required: true,
     },
+    forV: {
+      type: String,
+      required: true,
+    },
   },
-  mixins: [activeChange],
 };
 </script>
 <style lang="scss" scoped>
@@ -39,6 +29,12 @@ export default {
     width: 13px;
     height: 17px;
     opacity: 0;
+    &:checked + label {
+      background-color: #ee542f !important;
+      color: $white !important;
+      border-color: rgba(0, 0, 0, 0);
+      box-shadow: 0 2px 6px rgb(77 35 16 / 15%);
+    }
   }
 
   label {
@@ -53,12 +49,12 @@ export default {
   }
 }
 
-.custom-checkbox-btn--success {
-  label {
-    background-color: #ee542f !important;
-    color: $white !important;
-    border-color: rgba(0, 0, 0, 0);
-    box-shadow: 0 2px 6px rgb(77 35 16 / 15%);
-  }
-}
+// .custom-checkbox-btn--success {
+//   label {
+//     background-color: #ee542f !important;
+//     color: $white !important;
+//     border-color: rgba(0, 0, 0, 0);
+//     box-shadow: 0 2px 6px rgb(77 35 16 / 15%);
+//   }
+// }
 </style>

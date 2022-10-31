@@ -1,5 +1,9 @@
 <template>
   <div id="logIn">
+    <div class="notice" v-if="notice">
+      <p>Invalid email/password credentials.</p>
+      <a href="#" @click="close" class="close-notice">X</a>
+    </div>
     <div class="container">
       <h2>Login</h2>
       <form action="" @submit.prevent="submitForm">
@@ -32,11 +36,11 @@
         <div class="form-group">
           <Checkbox forV="remember" @click="lsRememberMe()"
             ><template slot="input">
-                <input type="checkbox" name="Remember" id="remember"/>
-              </template>
+              <input type="checkbox" name="Remember" id="remember" />
+            </template>
             Remember Me</Checkbox
           >
-          <router-link class="form-recovery" :to="{ name: 'forgotpassword'}"
+          <router-link class="form-recovery" :to="{ name: 'forgotpassword' }"
             >Forgot Password?</router-link
           >
         </div>
@@ -47,7 +51,7 @@
         </div>
         <div class="create-account">
           <span>New to SproutGigs? </span>
-          <router-link :to="{ name: 'signup'}" class="create-account-link"
+          <router-link :to="{ name: 'signup' }" class="create-account-link"
             >Create an account</router-link
           >
         </div>
@@ -58,40 +62,52 @@
 <script>
 import Checkbox from "./common/Checkbox.vue";
 import submitForm from "@/components/mixins/mixinValidate";
-import axios from 'axios';
+import axios from "axios";
 
 export default {
-  data(){
-    return{
-    }
+  data() {
+    return {
+      notice: false,
+    };
   },
   mixins: [submitForm],
   components: {
     Checkbox,
   },
-  methods:{
+  methods: {
+    close() {
+      this.notice = false;
+    },
     formIsValid() {
-    return this.emailIsValid && this.passwordIsValid;
-  },
-  async submitForm() {
+      return this.emailIsValid && this.passwordIsValid;
+    },
+    async submitForm() {
       this.submit = true;
       try {
         const credentials = {
           email: this.email,
           password: this.password,
         };
-        const response = await axios.post('/auth/login/', credentials);
-        console.log(response)
+        const response = await axios.post("/auth/login/", credentials);
+        console.log(response);
         const token = response.data.data.token;
         const user = response.data.data.user;
-        this.$store.dispatch('login', { token, user });
-        this.$router.push('/joblist');
+        if (response.data.status == 200) {
+          this.$store.dispatch("login", { token, user });
+          this.$router.push({name: 'joblist'});
+        }
       } catch (error) {
-        this.formIsValid();
-        console.log(error)
+        if(error.response.status == 401 && this.msg["email"] == '' && this.msg["password"] == ''){
+          this.notice = true;
+        }
       }
     },
-  }
+  },
+  mounted() {
+      if(this.$store.getters.isLoggedIn){
+        this.$router.push({name: 'joblist'});
+      }
+    },
 };
 </script>
 <style lang="scss" scoped>
@@ -102,6 +118,7 @@ export default {
   margin: 0 auto;
   padding-top: 4.375rem;
   padding-bottom: 5rem;
+  position: relative;
 }
 
 .form {

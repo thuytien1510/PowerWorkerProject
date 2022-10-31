@@ -13,16 +13,15 @@
                 <a class="dropdown-item" href="">Bitlabs</a>
                 <a class="dropdown-item" href=""
                   >CPX-Research<span id="countcpxsurveys"
-                    ><font-awesome-icon
-                      icon="fa-solid fa-spinner fa-spin" /></span
+                    >(12)</span
                 ></a>
                 <a class="dropdown-item" href=""
                   >Pollfish<span id="countpollfish"
-                    ><font-awesome-icon icon="fa-solid fa-spinner" /></span
+                    ><font-awesome-icon icon="fa-solid fa-spinner" spin/></span
                 ></a>
                 <a class="dropdown-item" href=""
                   >YourSurveys<span id="countyoursurveys"
-                    ><font-awesome-icon icon="fa-solid fa-spinner" /></span
+                    ><font-awesome-icon icon="fa-solid fa-spinner" spin/></span
                 ></a>
                 <a class="dropdown-item" href="">Wannads</a>
               </div>
@@ -76,7 +75,7 @@
                       :id="'pageFiltersLevel' + joblevel.id"
                     />
                   </template>
-                  {{ joblevel.level }}
+                  <span v-html="joblevel.level"></span>
                 </Checkbox>
               </div>
             </template>
@@ -90,7 +89,7 @@
                 :key="category.id"
               >
                 <CustomRadio :forV="'pageFiltersCategory' + category.id">
-                  <template>
+                  <template slot="input">
                     <input
                       type="radio"
                       name="category"
@@ -146,7 +145,7 @@
                 :key="empS.id"
               >
                 <CustomRadio :forV="'pageFiltersEmpStats' + empS.id">
-                  <template>
+                  <template slot="input">
                     <input
                       type="radio"
                       name="category"
@@ -163,7 +162,8 @@
       <div id="jobs-content">
         <div class="results">
           <p class="results-bar__total">
-            <span id="job-search-results">713</span>results
+            <span id="job-search-results">{{ filteredList.length }}</span
+            >results
           </p>
           <div class="results-search">
             <div class="list-filter">
@@ -172,30 +172,40 @@
                 class="form-control"
                 placeholder="Search job and press enter..."
                 value=""
+                v-model="input"
               />
             </div>
 
-            <div class="list-filter dropdown" @click="toggle()">
-              <a class="dropdown-toggle dropdown-sortby" href="#">
+            <div class="list-filter dropdown">
+              <a class="dropdown-toggle dropdown-sortby" href="#" @click="toggle()">
                 Sort by <span class="dropdown-sortby__sep">/</span>
-                <span class="dropdown-sortby__selection"> Most Recent </span>
+                <span class="dropdown-sortby__selection">{{
+                  searchBy || "Most Resent"
+                }}</span>
               </a>
-              <div class="dropdown-menu" :class="{ show: dropdown }">
-                <a class="dropdown-item active">Most Recent</a>
-                <a class="dropdown-item">Highest Paying</a>
-                <a class="dropdown-item">Crypto Verified Accounts</a>
-                <a class="dropdown-item">TTR</a>
-                <a class="dropdown-item">Employers followed</a>
+              <div class="dropdown-menu" :class="{ show: show }">
+                <p
+                  class="dropdown-item"
+                  v-for="search in searches"
+                  :key="search.id"
+                  :class="{ active: search.active }"
+                  @click="sort(search.sortBy, search.sortOrder, search.name)"
+                >
+                  {{ search.name }}
+                </p>
               </div>
             </div>
           </div>
         </div>
-        <DetailJobs />
-        <DetailJobs />
-        <DetailJobs />
-        <DetailJobs />
-        <DetailJobs />
-        <DetailJobs />
+        <DetailJobs
+          v-for="job in filteredList"
+          :key="job.id"
+          :subcategory="job.subCategory.name"
+          :target="job.targetZone"
+          :level="job.jobLevel"
+          :payment="job.payment"
+          :day="get_day_of_time(new Date(job.updatedAt))"
+        />
       </div>
     </div>
   </div>
@@ -206,6 +216,8 @@ import Checkbox from "../common/Checkbox.vue";
 import SearchDropdown from "./SearchDropdown.vue";
 import CustomRadio from "../common/CustomRadio.vue";
 import InputRange from "../common/InputRange.vue";
+import axios from "axios";
+
 export default {
   components: {
     DetailJobs,
@@ -216,20 +228,19 @@ export default {
   },
   data() {
     return {
-      dropdown: false,
       data: {
         joblevels: [
           {
             id: 1,
-            level: "Starter",
+            level: "Starter ",
           },
           {
             id: 2,
-            level: "Advanced",
+            level: "Advanced  " + `<i class="fa-solid fa-lock"></i>`,
           },
           {
             id: 3,
-            level: "Expert",
+            level: "Expert  " + `<i class="fa-solid fa-lock"></i>`,
           },
         ],
         categories: [
@@ -391,12 +402,108 @@ export default {
           },
         ],
       },
+      jobs: [],
+      searches: [
+        {
+          id: 1,
+          name: "Most Recent",
+          sortBy: "updatedAt",
+          sortOrder: "DESC",
+          active: true,
+        },
+        {
+          id: 2,
+          name: "Oldest Recent",
+          sortBy: "updatedAt",
+          sortOrder: "ASC",
+          active: false,
+        },
+        {
+          id: 3,
+          name: "Highest Paying",
+          sortBy: "payment",
+          sortOrder: "DESC",
+          active: false,
+        },
+        {
+          id: 4,
+          name: "Lowest Payding",
+          sortBy: "payment",
+          sortOrder: "ASC",
+          active: false,
+        },
+      ],
+      searchBy: "",
+      input: "",
+      show: false
     };
   },
+  created() {
+    axios
+      .post(`/api/jobs/list`, {
+        limit: null,
+        sortBy: "updatedAt",
+        sortOrder: "DESC",
+      })
+      .then((response) => {
+        this.jobs = response.data.data.data;
+      })
+      .catch((e) => {
+        if(e.response.status == 401){
+          this.$store.dispatch("logout");
+          this.$router.push({name: "login"});
+        }
+      });
+  },
   methods: {
-    toggle() {
-      this.dropdown = !this.dropdown;
+    get_day_of_time(d1) {
+      let d2 = new Date();
+      let ms1 = d1.getTime();
+      let ms2 = d2.getTime();
+      return Math.ceil((ms2 - ms1) / (24 * 60 * 60 * 1000));
     },
+    sort(sortBy, sortOrder, sortName) {
+      for (let search of this.searches) {
+        search.active = false;
+        if (search.name == sortName) {
+          search.active = true;
+        }
+      }
+      this.searchBy = sortName;
+      this.active = true;
+      this.show = false;
+      axios
+        .post(`/api/jobs/list`, {
+          limit: null,
+          sortBy: sortBy,
+          sortOrder: sortOrder,
+        })
+        .then((response) => {
+          this.jobs = response.data.data.data;
+        })
+        .catch((e) => {});
+    },
+    toggle(){
+      this.show = !this.show
+    },
+    close(e) {
+      if (!this.$el.contains(e.target)) {
+        this.show = false;
+      }
+    },
+  },
+  computed: {
+    filteredList() {
+      return this.jobs.filter((job) =>
+        job.subCategory.name.toLowerCase().includes(this.input.toLowerCase())
+      );
+    },
+  },
+  mounted() {
+    document.addEventListener("click", this.close);
+  },
+  beforeDestroy() {
+    document.removeEventListener("click", this.close);
   },
 };
 </script>
@@ -495,6 +602,9 @@ export default {
               font-size: 14px;
               font-weight: regular;
             }
+            span{
+              margin-left: 0.5rem;
+            }
           }
         }
 
@@ -566,6 +676,7 @@ export default {
 .results {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 10px;
 
   &-bar__total {
     display: flex;

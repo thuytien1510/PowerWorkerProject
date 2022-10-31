@@ -1,35 +1,19 @@
 <template>
-  <div
-    class="custom-control"
-    :class="{ 'custom-checkbox-btn--success': isActive }"
-    @click="activeChange()"
-  >
-    <input
-      type="radio"
-      name="cate"
-      :id="id"
-      class="custom-control-input"
-      :value="value"
-    />
-    <label>
+  <div class="custom-control">
+    <slot name="input"></slot>
+    <label :for="forV">
       <slot></slot>
     </label>
   </div>
 </template>
 <script>
-import activeChange from "@/components/mixins/mixinToggleBlur.js";
 export default {
   props: {
-    id: {
-      type: String,
-      required: true,
-    },
-    value: {
+    forV: {
       type: String,
       required: true,
     },
   },
-  mixins: [activeChange],
 };
 </script>
 
@@ -52,6 +36,13 @@ export default {
     height: 17px;
     opacity: 0;
     padding: 0;
+    &:checked + label {
+      background-color: #e7faef !important;
+      font-weight: bold;
+      color: $accent !important;
+      border-color: rgba(0, 0, 0, 0);
+      box-shadow: 0 4px 10px rgb(77 35 16 / 19%);
+    }
   }
 
   label {

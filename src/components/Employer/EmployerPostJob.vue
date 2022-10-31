@@ -17,16 +17,33 @@
         </ul>
         <div class="content-classic-job">
           <div class="content-left">
-            <router-view></router-view>
-            <router-link
-              tag="button"
+            <router-view
+              @region="handleRegion"
+              @country="handleCountry"
+              @category="handelCategory"
+              @subcategory="handelSubcategory"
+            ></router-view>
+            <button
               class="btn-next"
-              :to="{ name: 'category' }"
+              v-if="this.$route.name == 'region'"
+              @click="apply"
             >
               Apply and go to next
-            </router-link>
+            </button>
+            <button
+              class="btn-next"
+              v-if="this.$route.name == 'category'"
+              @click="postjob"
+            >
+              Post Job
+            </button>
           </div>
-          <EmployerSummaryJob />
+          <EmployerSummaryJob
+            :zone="regionname"
+            :excluded="countryname"
+            :category="categoryname.value"
+            :subcategory="subcategoryname.name"
+          />
         </div>
       </div>
       <div class="steps-bar" id="postJobStepsBar">
@@ -34,16 +51,19 @@
           <router-link
             :to="{ name: 'region' }"
             class="steps-bar__nav"
-            :class="{ 'steps-bar__nav--disabled': !isNext }"
+            :class="{
+              'steps-bar__nav--disabled': this.$route.name == 'region',
+            }"
             ><font-awesome-icon icon="fa-solid fa-chevron-left" /><span
-              @click="next()"
               >Back</span
             ></router-link
           >
           <ul class="steps-bar__ul">
             <li
               class="steps-bar__step steps-bar__step--focus"
-              :class="{ 'steps-bar__step--complete': isNext }"
+              :class="{
+                'steps-bar__step--complete': this.$route.name == 'category',
+              }"
             >
               <div class="steps-bar__step-icon">
                 <span>Region</span>
@@ -52,7 +72,9 @@
 
             <li
               class="steps-bar__step"
-              :class="{ 'steps-bar__step--focus': isNext }"
+              :class="{
+                'steps-bar__step--focus': this.$route.name == 'category',
+              }"
             >
               <div class="steps-bar__step-icon">
                 <span>Category</span>
@@ -78,7 +100,7 @@
             </li>
           </ul>
           <router-link :to="{ name: 'category' }" class="steps-bar__nav"
-            ><span @click="next()">Next</span>
+            ><span>Next</span>
             <font-awesome-icon icon="fa-solid fa-chevron-right"
           /></router-link>
         </div>
@@ -88,6 +110,8 @@
 </template>
 <script>
 import EmployerSummaryJob from "./EmployerSummaryJob.vue";
+import axios from "axios";
+
 export default {
   components: {
     EmployerSummaryJob,
@@ -95,11 +119,76 @@ export default {
   data() {
     return {
       isNext: false,
+      countryname: [],
+      regionname: "",
+      categoryname: {},
+      subcategoryname: {},
     };
   },
   methods: {
     next() {
       this.isNext = !this.isNext;
+    },
+    handleRegion(regionname) {
+      this.regionname = regionname;
+    },
+    handleCountry(countryname) {
+      this.countryname.push({ name: countryname.name, id: countryname.id });
+    },
+    handelCategory(categoryname) {
+      this.categoryname = categoryname;
+    },
+    handelSubcategory(subcategoryname) {
+      this.subcategoryname = subcategoryname;
+    },
+    apply() {
+      this.$router.push({ name: "category" });
+    },
+    async postjob() {
+      try {
+        const credentials = {
+          jobTitle: "New Offer: Program Sweepstakes 🎁 🚨 ",
+          tasksNeedCompleted: ["Monday", "Friday", "Sadday"],
+          additionalNotes: "string",
+          proofsRequired: [
+            {
+              proof: "string",
+              proofType: "Text Proof",
+            },
+          ],
+          jobLevel: "Starter",
+          category: this.categoryname.id,
+          subCategory: this.subcategoryname.id,
+          payment: 2,
+          targetZone: this.regionname,
+          countryIds: this.countryname.map((e) => e.id),
+          speed: 2,
+          workersNeeded: 25,
+          maxPosition: 2,
+          workersWillEarn: 2,
+          holdJobTime: 7,
+          pauseAfterApproval: true,
+          estimatedJobCosts: 2,
+        };
+        const response = await axios.post("/api/jobs/create", credentials);
+        console.log(response);
+        if (response.status == 201) {
+          this.$swal.fire({
+            position: "center-center",
+            icon: "success",
+            title: "Post Job Success",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          this.$router.push({ name: "region" });
+        }
+      } catch (error) {
+        this.$swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+        });
+      }
     },
   },
 };
@@ -128,6 +217,7 @@ h2 {
       display: flex;
       margin-right: 2.625rem;
       margin-bottom: -0.125rem;
+      align-items: unset;
 
       .nav-link {
         margin-right: 0.6875rem;
@@ -160,7 +250,7 @@ h2 {
     .content-left {
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: space-between;
 
       .btn-next {
         display: block;
@@ -189,7 +279,8 @@ h2 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 1.25rem;
+    padding: 0 0.5rem;
+    gap: 8px;
 
     a {
       text-decoration: none;
@@ -216,6 +307,7 @@ h2 {
       margin: 0;
       padding: 0 0.625rem;
       justify-content: center;
+      margin-top: 0.875rem;
 
       .steps-bar__step {
         flex-grow: 1;
@@ -248,7 +340,7 @@ h2 {
           position: absolute;
           top: 0;
           left: 0;
-          z-index: 1;
+          z-index: 2;
           background-color: $color-backgroud-header;
           overflow: visible;
           border-radius: 50%;
@@ -310,13 +402,14 @@ h2 {
 }
 
 @media screen and (max-width: 499.98px) {
-  .steps-bar
-    .steps-bar__inner
-    .steps-bar__ul
-    .steps-bar__step
-    .steps-bar__step-icon
-    span {
-    display: none;
+  .steps-bar .steps-bar__inner {
+    padding: 0;
+    .steps-bar__ul .steps-bar__step .steps-bar__step-icon span {
+      display: none;
+    }
+    a{
+      font-size: unset;
+    }
   }
 }
 </style>

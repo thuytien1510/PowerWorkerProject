@@ -9,43 +9,68 @@
           <nav class="navbar">
             <ul class="navbar-nav">
               <li class="nav-item dropdown">
-                <a class="nav-link" href="">
+                <div class="nav-link">
                   <span>
                     Gigs <font-awesome-icon icon="fa-solid fa-caret-down" />
                   </span>
                   <sup class="symbol symbol--warning">New</sup>
-                </a>
-                <div class="dropdown-menu" style="display: none">
-                  <a class="dropdown-item" href="">Browse Gigs</a>
-                  <a class="dropdown-item" href=""> My Posted Gigs </a>
                 </div>
               </li>
               <li class="nav-item dropdown">
-                <router-link class="nav-link" :to="{ name: 'joblist'}"
-                  ><span
+                <a class="nav-link" 
+                  ><span @click="toggle()"
                     >MicroJobs
                     <font-awesome-icon icon="fa-solid fa-caret-down" /></span
-                ></router-link>
-                <div class="dropdown-menu" style="display: none">
-                  <a class="dropdown-item" href="">Find Jobs</a>
-                  <a class="dropdown-item" href=""
-                    >Finished Tasks <span>0</span></a
+                ></a>
+                <div
+                  class="dropdown-menu"
+                  :class="{ show: dropdown }"
+                  v-if="isChange"
+                >
+                  <router-link
+                    :to="{ name: 'joblist' }"
+                    class="dropdown-item space"
+                    ><span @click="dropdown = false">Find Jobs</span></router-link
+                  >
+                  <a class="dropdown-item space"
+                    ><span>Finished Tasks</span> <span>0</span></a
                   >
                   <hr />
                   <div class="dropdown-item">
-                    <div>
+                    <div class="space disble">
                       <strong>satisfied + paid</strong>
-                      <span>0</span>
+                      <strong>0</strong>
                     </div>
-                    <div>
+                    <div class="space disble">
                       <strong>pending review</strong>
-                      <span>0</span>
+                      <strong>0</strong>
+                    </div>
+                  </div>
+                </div>
+                <div class="dropdown-menu" :class="{ show: dropdown }" v-else>
+                  <router-link
+                    :to="{ name: 'region' }"
+                    class="dropdown-item space"
+                    ><span @click="dropdown = false">Post Jobs</span></router-link
+                  >
+                  <a class="dropdown-item space"
+                    ><span>My Jobs</span> <span>0</span></a
+                  >
+                  <hr />
+                  <div class="dropdown-item">
+                    <div class="space disble">
+                      <strong>tasks to rate</strong>
+                      <strong>0</strong>
+                    </div>
+                    <div class="space disble">
+                      <strong>pending admin review</strong>
+                      <strong>0</strong>
                     </div>
                   </div>
                 </div>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href=""><span>Wallet</span></a>
+                <a class="nav-link"><span>Wallet</span></a>
               </li>
             </ul>
           </nav>
@@ -63,48 +88,20 @@
                 <span>worker</span>
               </a>
               <li class="nav-item">
-                <a class="nav-link" href="">
+                <a class="nav-link">
                   <font-awesome-icon icon="fa-regular fa-circle-question" />
                 </a>
               </li>
               <li class="nav-item dropdown navbar__dropdown">
-                <a class="nav-link notificationDropdown" href="#">
+                <div class="nav-link notificationDropdown">
                   <font-awesome-icon icon="fa-regular fa-bell" />
-                </a>
-                <div
-                  class="
-                    notifications
-                    dropdown-menu dropdown-menu-right
-                    custom-scrollbar-css
-                  "
-                  style="display: none"
-                >
-                  <div class="notifications__inner">
-                    <span class="notification"
-                      >You don't have any notifications at the moment.</span
-                    >
-                  </div>
                 </div>
               </li>
               <li class="nav-item dropdown navbar__dropdown navbar__logs">
-                <a class="nav-link" href="#">
+                <a class="nav-link">
                   <font-awesome-icon icon="fa-solid fa-history" />
                 </a>
-                <div
-                  class="dropdown-menu dropdown-menu-right custom-scrollbar-css"
-                  style="display: none"
-                >
-                  <div class="dropdown-item">
-                    <span class="logs-dd__desc"
-                      >You created an account - Welcome to SproutGigs!</span
-                    >
-                    <br />
-                    <span class="logs-dd__time">Oct 12, 2022 at 02:05</span>
-                  </div>
-                  <div class="see-all">
-                    <a href="/user-history.php#log-tab">See all</a>
-                  </div>
-                </div>
+                <div class="dropdown-menu"></div>
               </li>
             </ul>
             <div class="bar-icon" @click="showMenu()">
@@ -114,22 +111,24 @@
               <li
                 class="nav-item navbar-nav__profile dropdown profile-dropdown"
               >
-                <a class="nav-link" href="#" @click="toggle()">
+                <a class="nav-link" href="#" @click="activeChange()">
                   <div>
                     <img src="../assets/img/profile_no_image.gif" alt="" />
                   </div>
                 </a>
                 <div
                   class="dropdown-menu dropdown-menu-right"
-                  :class="{ show: dropdown }"
+                  :class="{ show: isActive }"
                 >
-                  <span class="profile-dropdown__name">Hello, tien</span>
+                  <span class="profile-dropdown__name"
+                    >Hello, {{ username }}</span
+                  >
                   <span class="dropdown-hr"></span>
-                  <a class="dropdown-item" href="">Account Settings</a>
-                  <a class="dropdown-item" href="">My Profile</a>
-                  <a class="dropdown-item" href="">Workers ranking</a>
-                  <a class="dropdown-item" href="">FAQ</a>
-                  <a class="dropdown-item" href="">Share &amp; Earn</a>
+                  <a class="dropdown-item">Account Settings</a>
+                  <a class="dropdown-item">My Profile</a>
+                  <a class="dropdown-item">Workers ranking</a>
+                  <a class="dropdown-item">FAQ</a>
+                  <a class="dropdown-item">Share &amp; Earn</a>
                   <a class="dropdown-item" href="" @click="logout">Logout</a>
                 </div>
               </li>
@@ -138,8 +137,11 @@
               <font-awesome-icon icon="fa-solid fa-moon" />
             </div>
             <button class="btn-post-job">
-              <router-link :to="{ name: 'region'}"
-                >{{ isChange ? "Finds Job" : "Post Job" }}
+              <router-link :to="{ name: 'joblist' }" v-if="isChange"
+                >Finds Job
+              </router-link>
+              <router-link :to="{ name: 'region' }" v-else
+                >Post Job
               </router-link>
             </button>
           </div>
@@ -153,7 +155,7 @@
                 <li class="nav-item navbar-nav__profile">
                   <a class="nav-link" href="#">
                     <img src="../assets/img/profile_no_image.gif" alt="" />
-                    <span>Hello, tien</span>
+                    <span>Hello, {{ username }}</span>
                   </a>
                 </li>
               </ul>
@@ -215,8 +217,8 @@
                       id="microjobs-submenu"
                       style="display: none"
                     >
-                      <a class="list-group-item" href="">Find Jobs</a>
-                      <a class="list-group-item" href=""
+                      <a class="list-group-item">Find Jobs</a>
+                      <a class="list-group-item"
                         >Finished Tasks <span>0</span></a
                       >
                       <span class="list-group-item"
@@ -255,7 +257,7 @@
                   <a class="nav-link" href="">Share &amp; Earn</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="">Logout</a>
+                  <a class="nav-link" href="" @click="logout">Logout</a>
                 </li>
               </ul>
             </div>
@@ -269,28 +271,62 @@
   </div>
 </template>
 <script>
+import axios from "axios";
+import activeChange from "./mixins/mixinToggleBlur";
 export default {
+  mixins: [activeChange],
   data() {
     return {
       show: false,
-      isChange: true,
+      isChange: false,
       dropdown: false,
+      username: "",
     };
   },
   methods: {
     showMenu() {
       this.show = !this.show;
     },
-    change() {
+    async change() {
       this.isChange = !this.isChange;
+      this.$swal.fire({
+        position: "center-center",
+        icon: "success",
+        title: "Switch success",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      let res = await axios.post("/api/users/switch-role");
+      console.log(this.$route.name);
+      console.log(res);
     },
     toggle() {
       this.dropdown = !this.dropdown;
     },
     logout() {
       this.$store.dispatch("logout");
-      this.$router.push("/login");
+      this.$router.push({ name: "login" });
     },
+    close(e) {
+      if (!this.$el.contains(e.target)) {
+        this.dropdown = false;
+      }
+    },
+  },
+  updated() {
+    if (this.isChange) {
+      this.$router.push({ name: "joblist" }).catch(()=>{});
+    }
+  },
+  async mounted() {
+    try {
+      const res = await axios.get("/api/users/info");
+      this.username = res.data.data.username;
+      console.log(res.data.data.role);
+      if(res.data.data.role == "WORKER"){
+        this.isChange = true
+      }
+    } catch (error) {}
   },
 };
 </script>
@@ -315,7 +351,21 @@ body {
   transform: translateX(100%);
   transition: all 150ms ease-in 0s;
 }
-
+.space {
+  display: flex !important;
+  justify-content: space-between;
+  padding: 0.3125rem 1.0625rem;
+  margin: 0.1875rem;
+  font-size: 0.9375rem !important;
+  &:hover {
+    color: $black !important;
+    font-weight: $bold !important;
+  }
+}
+.disble {
+  padding: 0.5rem auto !important;
+  opacity: 0.5;
+}
 #homeUser {
   background: $color-backgroud-header;
   position: sticky;
@@ -405,6 +455,7 @@ body {
 
       .profile-dropdown__name {
         padding: 0.625rem 1.25rem;
+        padding-top: 0.8rem;
         display: block;
         margin-bottom: 0.3125rem;
         white-space: nowrap;
@@ -456,26 +507,30 @@ body {
     width: 200px;
     display: none;
     position: absolute;
-    left: -155px;
     background-color: $white;
-    min-width: 160px;
+    min-width: 232px;
     box-shadow: 0px 8px 1rem 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
     margin-top: 0.5rem;
+    top: 43px;
+    left: -25px;
 
     a {
       color: black;
       padding: 0.75rem 1rem !important;
       display: block;
-      font-size: 13px;
+      font-size: 0.875rem;
       font-weight: $light !important;
 
       &:hover {
         color: $accent;
-        font-size: 0.875rem;
-        font-weight: $regular;
+        font-size: 0.9rem;
+        font-weight: $bold !important;
       }
     }
+  }
+  .dropdown-menu-right {
+    left: -155px;
   }
 
   .show {

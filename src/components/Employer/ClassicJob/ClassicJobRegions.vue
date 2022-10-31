@@ -9,10 +9,20 @@
           <RegionTargetZone
             v-for="location in locations"
             :key="location.id"
-            name="zone"
-            :id="'targetingCountries' + location.id"
             :value="location.loca"
-          ></RegionTargetZone>
+            :forV="'targetingCountries' + location.id"
+          >
+            <template slot="input">
+              <input
+                type="radio"
+                name="zone"
+                :id="'targetingCountries' + location.id"
+                :value="location.loca"
+                @click="getCountries"
+                v-model="modelregion"
+              />
+            </template>
+          </RegionTargetZone>
         </div>
       </div>
       <div class="post-job-step">
@@ -24,65 +34,22 @@
         </div>
         <div class="countryZone">
           <RegionCountryZone
-            name="ex1"
-            id="ex-int-1"
-            forN="ex-int-1"
-            value="Albania"
-          />
-          <RegionCountryZone
-            name="ex1"
-            id="ex-int-2"
-            forN="ex-int-2"
-            value="Albania"
-          />
-          <RegionCountryZone
-            name="ex1"
-            id="ex-int-3"
-            forN="ex-int-3"
-            value="Albania"
-          />
-          <RegionCountryZone
-            name="ex1"
-            id="ex-int-4"
-            forN="ex-int-4"
-            value="Albania"
-          />
-          <RegionCountryZone
-            name="ex1"
-            id="ex-int-5"
-            forN="ex-int-5"
-            value="Albania"
-          />
-          <RegionCountryZone
-            name="ex1"
-            id="ex-int-6"
-            forN="ex-int-6"
-            value="Albania"
-          />
-          <RegionCountryZone
-            name="ex1"
-            id="ex-int-7"
-            forN="ex-int-7"
-            value="Albania"
-          />
-          <RegionCountryZone
-            name="ex1"
-            id="ex-int-8"
-            forN="ex-int-8"
-            value="Albania"
-          />
-          <RegionCountryZone
-            name="ex1"
-            id="ex-int-9"
-            forN="ex-int-9"
-            value="Albania"
-          />
-          <RegionCountryZone
-            name="ex1"
-            id="ex-int-10"
-            forN="ex-int-10"
-            value="Albania"
-          />
+            v-for="country in countries"
+            :key="country.id"
+            :forV="country.id"
+            :value="country.name"
+          >
+          <template slot="input" >
+            <input
+                type="checkbox"
+                :name="country.targetZone[0]"
+                :id="country.id"
+                :value="country.name"
+                @click="$emit('country', country)"
+                v-model="modelcountries"
+              />
+          </template>
+        </RegionCountryZone>
         </div>
       </div>
     </div>
@@ -91,6 +58,8 @@
 <script>
 import RegionTargetZone from "./Region/RegionTargetZone.vue";
 import RegionCountryZone from "./Region/RegionCountryZone.vue";
+import axios from "axios";
+
 export default {
   components: {
     RegionCountryZone,
@@ -140,8 +109,23 @@ export default {
           loca: "USA & Western",
         },
       ],
+      countries: [],
+      modelregion: '',
+      modelcountries: []
     };
   },
+  methods: {
+    getCountries(event){
+      axios
+      .get(`/api/countries?target_zone=${event.target.value}`).then((response) => {
+        this.countries = response.data.data;
+      this.$emit('region', event.target.value);
+      })
+      .catch((e) => {});
+    },
+    
+
+  }
 };
 </script>
 <style lang="scss" scoped>

@@ -1,29 +1,19 @@
 <template>
-  <div
-    class="subcategory-item"
-    :class="{ 'custom-checkbox-btn--success': isActive }"
-    @click="activeChange()"
-  >
-    <input type="radio" :id="id" name="subcategory" :value="value" />
-    <label>
+  <div class="subcategory-item">
+    <slot name="input"></slot>
+    <label :for="forV">
       <slot></slot>
     </label>
   </div>
 </template>
 <script>
-import activeChange from "@/components/mixins/mixinToggle";
 export default {
   props: {
-    id: {
-      type: String,
-      required: true,
-    },
-    value: {
+    forV: {
       type: String,
       required: true,
     },
   },
-  mixins: [activeChange],
 };
 </script>
 <style lang="scss" scoped>
@@ -39,6 +29,13 @@ export default {
     width: 13px;
     height: 17px;
     opacity: 0;
+    &:checked + label {
+      background-color: #e7faef !important;
+      font-weight: bold;
+      color: $accent !important;
+      border-color: rgba(0, 0, 0, 0);
+      box-shadow: 0 4px 10px rgb(77 35 16 / 19%);
+    }
   }
 
   label {

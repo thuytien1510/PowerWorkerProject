@@ -6,70 +6,24 @@
           <h3>Choose the job category</h3>
         </div>
         <div class="row-categories" id="categoryZone">
-          <div class="col">
-            <CategogyJob id="jobCategory1" value="">Sign Up</CategogyJob>
-            <CategogyJob id="jobCategory2" value=""
-              >SEO, Promote Content, Search, Engage
-            </CategogyJob>
-            <CategogyJob id="jobCategory3" value=""
-              >Data Entry, Collection, Extraction
-            </CategogyJob>
-            <CategogyJob id="jobCategory4" value="">Telegram</CategogyJob>
-            <CategogyJob id="jobCategory5" value="">Discord</CategogyJob>
-            <CategogyJob id="jobCategory6" value="">TikTok</CategogyJob>
-          </div>
-          <div class="col">
-            <CategogyJob id="jobCategory1" value=""
-              >Facebook<br />
-              Micro-Influencer
-            </CategogyJob>
-            <CategogyJob id="jobCategory2" value=""
-              >Twitter<br />
-              Micro-Influencer
-            </CategogyJob>
-            <CategogyJob id="jobCategory3" value=""
-              >Instagram<br />
-              Micro-Influencer
-            </CategogyJob>
-            <CategogyJob id="jobCategory10" value="">Promotion</CategogyJob>
-            <CategogyJob id="jobCategory11" value="">Reddit</CategogyJob>
-            <CategogyJob id="jobCategory12" value=""
-              >Video Marketing</CategogyJob
-            >
-          </div>
-          <div class="col">
-            <CategogyJob id="jobCategory13" value="">Forums</CategogyJob>
-            <CategogyJob id="jobCategory14" value=""
-              >Comment on other blogs
-            </CategogyJob>
-            <CategogyJob id="jobCategory15" value="">Answers</CategogyJob>
-            <CategogyJob id="jobCategory16" value=""
-              >Surveys / Offers</CategogyJob
-            >
-            <CategogyJob id="jobCategory17" value=""
-              >Write an honest review (Service, Product)</CategogyJob
-            >
-          </div>
-          <div class="col">
-            <CategogyJob id="jobCategory19" value=""
-              >Mobile Application</CategogyJob
-            >
-            <CategogyJob id="jobCategory20" value=""
-              >Computer Programs</CategogyJob
-            >
-            <CategogyJob id="jobCategory21" value="">Leads</CategogyJob>
-            <CategogyJob id="jobCategory22" value=""
-              >Website Owners</CategogyJob
-            >
-            <CategogyJob
-              id="jobCategory23"
-              value=""
-              style="cursor: not-allowed"
-            >
-              Qualification</CategogyJob
-            >
-            <CategogyJob id="jobCategory24" value="">Other</CategogyJob>
-          </div>
+          <CategogyJob
+            v-for="category in categories"
+            :key="category.id"
+            :forV="category.id"
+          >
+            <template slot="input">
+              <input
+                type="radio"
+                name="cate"
+                :id="category.id"
+                class="custom-control-input"
+                :value="category.name"
+                @click="getSubcategory"
+                v-model="modelcategory"
+              />
+            </template>
+            {{ category.name }}
+          </CategogyJob>
         </div>
       </div>
       <div class="post-job-step">
@@ -77,36 +31,65 @@
           <h3>Choose the subcategory</h3>
         </div>
         <div class="subcategory" id="subcategory">
-          <CategorySub name="subcategory" id="subcat1" forN="subcat1" value=""
-            >Facebook Like</CategorySub
+          <CategorySub
+            name="subcategory"
+            v-for="subcategory in subcategories.children"
+            :key="subcategory.id"
+            :forV="subcategory.id"
           >
-          <CategorySub name="subcategory" id="subcat2" forN="subcat2" value=""
-            >Facebook Like (50+ Friends)
+            <template slot="input">
+              <input
+                type="radio"
+                :id="subcategory.id"
+                :name="subcategories.name"
+                :value="subcategory.name"
+                v-model="modelsubcategory"
+                @click="$emit('subcategory', subcategory)"
+              />
+            </template>
+            {{ subcategory.name }}
           </CategorySub>
-          <CategorySub name="subcategory" id="subcat3" forN="subcat3" value=""
-            >Facebook Like (100+ Friends)
-          </CategorySub>
-          <CategorySub name="subcategory" id="subcat4" forN="subcat4" value=""
-            >Facebook Like (300+ Friends)
-          </CategorySub>
-          <CategorySub name="subcategory" id="subcat5" forN="subcat5" value=""
-            >Add comment to existing conversation</CategorySub
-          >
-          <CategorySub name="subcategory" id="subcat6" forN="subcat6" value=""
-            >Add me as a Friend</CategorySub
-          >
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import axios from "axios";
 import CategogyJob from "./Category/CategogyJob.vue";
 import CategorySub from "./Category/CategorySub.vue";
 export default {
+  data() {
+    return {
+      categories: "",
+      subcategories: "",
+      modelcategory: "",
+      modelsubcategory: [],
+    };
+  },
   components: {
     CategogyJob,
     CategorySub,
+  },
+  mounted() {
+    axios
+      .get(`/api/categories`)
+      .then((response) => {
+        this.categories = response.data.data;
+        console.log(response.data);
+      })
+      .catch((e) => {});
+  },
+  methods: {
+    getSubcategory(e) {
+      this.$emit("category", {value: e.target.value, id: e.target.id});
+      const arr = this.categories;
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i].name == e.target.value) {
+          this.subcategories = arr[i];
+        }
+      }
+    },
   },
 };
 </script>
@@ -116,13 +99,9 @@ export default {
 .post-job-step {
   margin-bottom: 2.5rem;
 
-  .col {
-    width: 100%;
-  }
-
   .row-categories {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     column-gap: 1.25rem;
     padding-right: 1.25rem;
   }

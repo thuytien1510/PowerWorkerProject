@@ -1,6 +1,6 @@
 <template>
   <div id="radio">
-    <slot name="radio"></slot>
+    <slot name="input"></slot>
     <label :for="forV">
       <slot></slot>
     </label>
@@ -70,7 +70,7 @@ export default {
   content: "";
   position: absolute;
   left: 0.05em;
-  top: 0.4em;
+  top: 0.39em;
   width: 11px;
   height: 11px;
   transition: all 0.275s;

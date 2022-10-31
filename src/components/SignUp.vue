@@ -5,7 +5,7 @@
         id="signup-form"
         class="signup-form"
         action=""
-        @submit.prevent="submitForm"
+        @submit.prevent="submitForm()"
       >
         <div class="login-form__content">
           <h2>Sign Up</h2>
@@ -119,69 +119,78 @@
             </div>
           </div>
 
-          <div class="signup-profile-type">
-            <div class="signup-profile-type__content">
-              <h4>Select your profile type:</h4>
-              <p>
-                Select the desired profile type now, but you can switch between
-                them later.
-              </p>
-            </div>
+          <div class="signup-role">
+            <div class="signup-profile-type">
+              <div class="signup-profile-type__content">
+                <h4>Select your profile type:</h4>
+                <p>
+                  Select the desired profile type now, but you can switch
+                  between them later.
+                </p>
+              </div>
 
-            <div class="signup-profile-type__options">
-              <div class="radio-group-2">
-                <ul>
-                  <li>
-                    <input
-                      type="radio"
-                      name="Profiletype"
-                      value="WORKER"
-                      id="profileTypeWorker"
-                      v-model="posistion"
-                      checked
-                    />
-                    <label for="profileTypeWorker">I'm a Worker</label>
-                  </li>
-                  <li>
-                    <input
-                      type="radio"
-                      name="Profiletype"
-                      value="EMPLOYER"
-                      id="profileTypeEmployer"
-                      v-model="posistion"
-                    />
-                    <label for="profileTypeEmployer">I'm an Employer</label>
-                  </li>
-                </ul>
+              <div class="signup-profile-type__options">
+                <div class="radio-group-2">
+                  <ul>
+                    <li>
+                      <input
+                        type="radio"
+                        name="Profiletype"
+                        value="WORKER"
+                        id="profileTypeWorker"
+                        v-model="posistion"
+                      />
+                      <label for="profileTypeWorker">I'm a Worker</label>
+                    </li>
+                    <li>
+                      <input
+                        type="radio"
+                        name="Profiletype"
+                        value="EMPLOYER"
+                        id="profileTypeEmployer"
+                        v-model="posistion"
+                      />
+                      <label for="profileTypeEmployer">I'm an Employer</label>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
+            <div class="error text-right" v-if="!profiletypeIsValid && submit"
+              >You need to select your profile type</div
+            >
           </div>
 
-          <div class="custom-control" >
+          <div class="custom-control">
             <Checkbox forV="tos">
               <template slot="input">
-                <input type="checkbox" name="Tos" id="tos" v-model="checkAccept"/>
+                <input
+                  type="checkbox"
+                  name="Tos"
+                  id="tos"
+                  v-model="checkAccept"
+                />
               </template>
               I agree to SproutGigs Terms of Service and Privacy Policy.
             </Checkbox>
-            <span class="error" v-if="!agreeValid && submit"
+            <!-- <span class="error" v-if="!agreeValid && submit"
               >You need to accept the Terms of Service</span
-            >
+            > -->
           </div>
           <div class="custom-control">
             <Checkbox forV="opt-in">
               <template slot="input">
-                <input type="checkbox" name="OptIn" id="opt-in"/>
+                <input type="checkbox" name="OptIn" id="opt-in" />
               </template>
               Send me news, events and offers via periodic email.
             </Checkbox>
           </div>
         </div>
         <div class="login-form__footer">
-          <button type="submit">SIGN UP</button>
+          <button :disabled="!agreeValid">SIGN UP</button>
           <p class="have-account">
             Have an account?
-            <router-link :to="{ name: 'login'}" class="login-link">Login now.</router-link>
+            <a href="#" class="login-link">Login now.</a>
           </p>
         </div>
       </form>
@@ -192,7 +201,7 @@
 import "vue-select/dist/vue-select.css";
 import Select2 from "v-select2-component";
 import Checkbox from "./common/Checkbox.vue";
-import submitForm from "@/components/mixins/mixinValidate";
+import emailIsValid from "@/components/mixins/mixinValidate";
 import axios from "axios";
 
 export default {
@@ -200,6 +209,7 @@ export default {
     return {
       posistion: "",
       checkAccept: "",
+      emailExit: "",
       myValue: "",
       myOptions: [
         "Select Country",
@@ -411,7 +421,7 @@ export default {
       ],
     };
   },
-  mixins: [submitForm],
+  mixins: [emailIsValid],
   computed: {
     selectCountryValid() {
       return this.myValue ? true : false;
@@ -420,8 +430,26 @@ export default {
       console.log(this.checkAccept);
       return this.checkAccept ? true : false;
     },
+    profiletypeIsValid() {
+      return this.posistion ? true : false;
+    },
+    emailIsValid() {
+      if(this.email && this.emailExit) {
+        this.msg["email"] = this.emailExit;
+      }
+      return this.msg["email"];
+    }
   },
   methods: {
+    onSelect({ name, iso2, dialCode }) {
+      console.log(name, iso2, dialCode);
+    },
+    myChangeEvent(val) {
+      console.log(val);
+    },
+    mySelectEvent({ id, text }) {
+      console.log({ id, text });
+    },
     formIsValid() {
       return (
         this.emailIsValid &&
@@ -447,12 +475,12 @@ export default {
         const response = await axios.post("/auth/register", credentials);
         console.log(response);
 
-        if (this.formIsValid) {
+        if (response.status == 202) {
           this.$router.push("/login");
         }
       } catch (error) {
-        this.formIsValid();
-        console.log(error);
+        this.submit = true;
+        this.emailExit = error.response.data.message[0].message;
       }
     },
   },
@@ -621,10 +649,15 @@ export default {
   }
 }
 
+.signup-role{
+  margin-bottom: 1rem;
+  .text-right{
+    text-align: end;
+  }
+}
 .signup-profile-type {
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
 }
 
 .signup-profile-type__content {
@@ -731,6 +764,9 @@ export default {
     text-transform: uppercase;
     cursor: pointer;
     margin-bottom: 1rem;
+    &:disabled{
+      opacity: 0.5;
+    }
   }
 }
 

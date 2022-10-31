@@ -6,7 +6,8 @@ Vue.use(Vuex);
 const getDefaultState = () => {
   return {
     token: '',
-    user: {}
+    user: {},
+    data: null
   };
 };
 export default new Vuex.Store({
@@ -30,17 +31,19 @@ export default new Vuex.Store({
     },
     RESET: state => {
       Object.assign(state, getDefaultState());
+    },
+    getData(state, newData){
+      state.data = newData;
     }
   },
   actions: {
     login: ({ commit, dispatch }, { token, user }) => {
       commit('SET_TOKEN', token);
       commit('SET_USER', user);
-      // set auth header
       Axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     },
     logout: ({ commit }) => {
       commit('RESET', '');
-    }
+    },
   }
 });

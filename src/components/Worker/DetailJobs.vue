@@ -1,10 +1,10 @@
 <template>
   <div id="detailjob">
-    <a href="" class="job-bar">
+    <a class="job-bar">
       <div class="job-bar__inner">
         <div class="job-bar__header">
           <h3 class="job-bar__heading">
-            <span>Morpher: Sign Up + Auto KYC (New users Only)</span>
+            <span>{{subcategory}}</span>
             <span>FEATURED</span>
           </h3>
           <div class="job-bar__actions">
@@ -20,7 +20,7 @@
             <p>
               <span>
                 <span>INT</span>
-                <span>International</span>
+                <span>{{target}}</span>
               </span>
             </p>
             <p>
@@ -28,7 +28,7 @@
                 <span>
                   <img src="../../assets/img/level-1.svg" alt="Starter Level" draggable="false" />
                 </span>
-                <span class="text-starter">Starter</span>
+                <span class="text-starter">{{level}}</span>
               </span>
             </p>
           </div>
@@ -51,20 +51,31 @@
           </div>
           <div class="job-bar__rate">
             <div class="job-bar__price text-right">
-              <small>$</small><span>0.500</span>
+              <small>$</small><span>{{payment}}</span>
             </div>
-            <p>1 day rate</p>
+            <p>{{day}} day rate</p>
           </div>
         </div>
       </div>
     </a>
   </div>
 </template>
+<script>
+  export default {
+    props: {
+      subcategory: String,
+      target: String,
+      level: String,
+      payment: Number,
+      day: Number
+    }
+  }
+</script>
 <style lang="scss" scoped>
 @import '../../assets/css/style.scss';
 
 #detailjob {
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 a {

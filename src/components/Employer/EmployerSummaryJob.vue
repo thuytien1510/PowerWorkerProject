@@ -7,15 +7,15 @@
           <h3>SUMMARY</h3>
           <p><strong>Estimated Job costs:</strong> $<span>1.1850</span></p>
           <hr />
-          <p><strong>Zone:</strong> <span>International</span></p>
-          <p><strong>Excluded:</strong> <span></span></p>
+          <p><strong>Zone:</strong> <span>{{zone}}</span></p>
+          <p><strong>Excluded:</strong> <span>{{excluded.map((e)=>e.name).join(', ')}}</span></p>
           <hr />
           <p>
-            <strong>Category:</strong> <span>Instagram Micro-Influencer</span>
+            <strong>Category:</strong> <span>{{category}}</span>
           </p>
-          <p><strong>Subcategory:</strong> <span>Follow</span></p>
+          <p><strong>Subcategory:</strong> <span>{{subcategory}}</span></p>
           <hr />
-          <p><strong>Level:</strong> <span>starter</span></p>
+          <p><strong>Level:</strong> <span>Starter</span></p>
           <p><strong>Speed:</strong> <span>1000</span></p>
           <p><strong>Workers needed:</strong> <span>25</span></p>
           <p><strong>Notify followers:</strong> <span></span></p>
@@ -42,6 +42,16 @@
     </div>
   </div>
 </template>
+<script>
+export default {
+  props: {
+    zone: String,
+    excluded: Array,
+    category: String,
+    subcategory: String,
+  },
+};
+</script>
 <style lang="scss" scoped>
 @import "@/assets/css/style.scss";
 
@@ -109,6 +119,11 @@
       cursor: pointer;
       font-weight: $bold;
     }
+  }
+}
+@media screen and (max-width: 767.98px){
+  #summary {
+    padding-left: 0;
   }
 }
 </style>

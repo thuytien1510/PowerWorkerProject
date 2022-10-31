@@ -1,16 +1,16 @@
 <template>
   <div class="page-filter page-filters__item dropdown">
-    <a class="dropdown-toggle" href="#" @click="toggleSearch()" :class="none">
+    <a class="dropdown-toggle" href="#" @click="activeChange()" :class="none">
       <slot name="toggle"></slot>
     </a>
-    <div class="page-filter__menu dropdown-menu" :class="{ show: drop }">
+    <div class="page-filter__menu dropdown-menu" :class="{ show: isActive }">
       <div class="dropdown-content">
         <div class="page-filter__options">
           <slot name="content"></slot>
         </div>
       </div>
       <div class="page-filter__menu-footer dropdown-footer">
-        <button class="btn-clear">CLEAR</button>
+        <button type="reset" class="btn-clear">CLEAR</button>
         <button class="btn-apply">APPLY</button>
       </div>
     </div>
@@ -19,6 +19,7 @@
 <script>
 import DetailJobs from "./DetailJobs.vue";
 import Checkbox from "../common/Checkbox.vue";
+import activeChange from "../mixins/mixinToggleBlur.js"
 export default {
   components: {
     DetailJobs,
@@ -30,27 +31,7 @@ export default {
       required: false,
     },
   },
-  data() {
-    return {
-      drop: false,
-    };
-  },
-  methods: {
-    toggleSearch() {
-      this.drop = !this.drop;
-    },
-    close(e) {
-      if (!this.$el.contains(e.target)) {
-        this.drop = false;
-      }
-    },
-  },
-  mounted() {
-    document.addEventListener("click", this.close);
-  },
-  beforeDestroy() {
-    document.removeEventListener("click", this.close);
-  },
+  mixins: [activeChange]
 };
 </script>
 <style lang="scss" scoped>

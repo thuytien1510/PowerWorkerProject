@@ -15,7 +15,7 @@ export default {
       if (
         this.email &&
         this.checkMinMax(this.email.length, 6, 64) &&
-        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email)
+        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/.test(this.email)
       ) {
         this.msg["email"] = "";
       } else {
@@ -48,9 +48,13 @@ export default {
         )
       ) {
         this.msg["confirmpassword"] = "";
-      } else {
-        this.msg["confirmpassword"] =
-          "Password must be at least 8 characters and at most 64 characters and contain 1 uppercase, 1 lowercase and 1 number";
+      } 
+      else {
+          this.msg["confirmpassword"] =
+            "Password must be at least 8 characters and at most 64 characters and contain 1 uppercase, 1 lowercase and 1 number";
+      }
+      if(this.confirmpassword && this.confirmpassword !== this.password) {
+        this.msg["confirmpassword"] = "Passwords are not same";
       }
       return this.msg["confirmpassword"];
     },
@@ -73,10 +77,10 @@ export default {
         this.msg["nickname"] = "";
       } else {
         this.msg["nickname"] =
-          "Nickname contains only letters, number and underscore ";
+          "Nickname format is wrong (a-z,0-9,_-)";
       }
       return this.msg["nickname"];
-    }
+    },
   },
   methods: {
     checkMinMax(length, min, max) {
