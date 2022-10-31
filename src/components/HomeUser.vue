@@ -17,7 +17,7 @@
                 </div>
               </li>
               <li class="nav-item dropdown">
-                <a class="nav-link" 
+                <a class="nav-link"
                   ><span @click="toggle()"
                     >MicroJobs
                     <font-awesome-icon icon="fa-solid fa-caret-down" /></span
@@ -27,21 +27,24 @@
                   :class="{ show: dropdown }"
                   v-if="isChange"
                 >
-                  <router-link
-                    :to="{ name: 'joblist' }"
-                    class="dropdown-item space"
-                    ><span @click="dropdown = false">Find Jobs</span></router-link
-                  >
+                  <span @click="dropdown = false">
+                    <router-link
+                      :to="{ name: 'joblist' }"
+                      class="dropdown-item space active"
+                      >Find Jobs</router-link
+                    >
+                  </span>
+
                   <a class="dropdown-item space"
                     ><span>Finished Tasks</span> <span>0</span></a
                   >
                   <hr />
-                  <div class="dropdown-item">
-                    <div class="space disble">
+                  <div class="dropdown-item micro-job">
+                    <div class="disble">
                       <strong>satisfied + paid</strong>
                       <strong>0</strong>
                     </div>
-                    <div class="space disble">
+                    <div class="disble">
                       <strong>pending review</strong>
                       <strong>0</strong>
                     </div>
@@ -51,7 +54,9 @@
                   <router-link
                     :to="{ name: 'region' }"
                     class="dropdown-item space"
-                    ><span @click="dropdown = false">Post Jobs</span></router-link
+                    ><span @click="dropdown = false"
+                      >Post Jobs</span
+                    ></router-link
                   >
                   <a class="dropdown-item space"
                     ><span>My Jobs</span> <span>0</span></a
@@ -129,7 +134,7 @@
                   <a class="dropdown-item">Workers ranking</a>
                   <a class="dropdown-item">FAQ</a>
                   <a class="dropdown-item">Share &amp; Earn</a>
-                  <a class="dropdown-item" href="" @click="logout">Logout</a>
+                  <a class="dropdown-item" @click="logout">Logout</a>
                 </div>
               </li>
             </ul>
@@ -153,7 +158,7 @@
             <div class="side-nav__header">
               <ul class="nav">
                 <li class="nav-item navbar-nav__profile">
-                  <a class="nav-link" href="#">
+                  <a class="nav-link">
                     <img src="../assets/img/profile_no_image.gif" alt="" />
                     <span>Hello, {{ username }}</span>
                   </a>
@@ -168,7 +173,7 @@
             </div>
             <div class="side-nav__switch">
               <li class="nav-item">
-                <a class="nav-link switch-profile-text" href="#">
+                <a class="nav-link switch-profile-text" >
                   <span>employer</span>
                   <div
                     class="zawp-toggle"
@@ -185,8 +190,8 @@
               <ul class="nav-items">
                 <li class="nav-item">
                   <div class="list-group">
-                    <a href="#gigs-submenu" class="nav-link list-group-header">
-                      Gigs<font-awesome-icon icon="fa-solid fa-caret-down" />
+                    <a class="nav-link list-group-header">
+                      Gigs&nbsp;&nbsp;<font-awesome-icon icon="fa-solid fa-caret-down" />&nbsp;&nbsp;
                       <span class="symbol symbol--warning">New</span>
                     </a>
                     <div
@@ -194,10 +199,9 @@
                       id="gigs-submenu"
                       style="display: none"
                     >
-                      <a class="list-group-item" href="">Browse Gigs</a>
+                      <a class="list-group-item">Browse Gigs</a>
                       <a
                         class="list-group-item"
-                        href=""
                         style="width: fit-content"
                       >
                         My Posted Gigs
@@ -207,8 +211,8 @@
                 </li>
                 <li class="nav-item">
                   <div class="list-group">
-                    <a href="" class="nav-link list-group-header">
-                      MicroJobs<font-awesome-icon
+                    <a class="nav-link list-group-header">
+                      MicroJobs&nbsp;&nbsp;<font-awesome-icon
                         icon="fa-solid fa-caret-down"
                       />
                     </a>
@@ -231,38 +235,43 @@
                   </div>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="">Wallet</a>
+                  <a class="nav-link">Wallet</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="">Account Settings</a>
+                  <a class="nav-link">Account Settings</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="">Workers ranking</a>
+                  <a class="nav-link">Workers ranking</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="">Support Tickets</a>
+                  <a class="nav-link">Support Tickets</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link notificationDropdown" href=""
+                  <a class="nav-link notificationDropdown"
                     >Notifications</a
                   >
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="">Logs</a>
+                  <a class="nav-link">Logs</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="">FAQ</a>
+                  <a class="nav-link">FAQ</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="">Share &amp; Earn</a>
+                  <a class="nav-link">Share &amp; Earn</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="" @click="logout">Logout</a>
+                  <a class="nav-link" @click="logout">Logout</a>
                 </li>
               </ul>
             </div>
             <div class="side-nav__footer">
-              <a href="">Find Jobs</a>
+              <router-link :to="{ name: 'joblist' }" v-if="isChange"
+                >Finds Job
+              </router-link>
+              <router-link :to="{ name: 'region' }" v-else
+                >Post Job
+              </router-link>
             </div>
           </div>
         </div>
@@ -310,12 +319,13 @@ export default {
     close(e) {
       if (!this.$el.contains(e.target)) {
         this.dropdown = false;
+        this.isActive = false;
       }
     },
   },
   updated() {
     if (this.isChange) {
-      this.$router.push({ name: "joblist" }).catch(()=>{});
+      this.$router.push({ name: "joblist" }).catch(() => {});
     }
   },
   async mounted() {
@@ -323,8 +333,8 @@ export default {
       const res = await axios.get("/api/users/info");
       this.username = res.data.data.username;
       console.log(res.data.data.role);
-      if(res.data.data.role == "WORKER"){
-        this.isChange = true
+      if (res.data.data.role == "WORKER") {
+        this.isChange = true;
       }
     } catch (error) {}
   },
@@ -351,6 +361,10 @@ body {
   transform: translateX(100%);
   transition: all 150ms ease-in 0s;
 }
+
+.active {
+  font-weight: $bold !important;
+}
 .space {
   display: flex !important;
   justify-content: space-between;
@@ -359,13 +373,22 @@ body {
   font-size: 0.9375rem !important;
   &:hover {
     color: $black !important;
-    font-weight: $bold !important;
+    font-weight: $bold;
+  }
+}
+.micro-job {
+  &:hover {
+    color: $black !important;
+    font-size: 0.875rem !important;
   }
 }
 .disble {
-  padding: 0.5rem auto !important;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0.25rem;
   opacity: 0.5;
 }
+
 #homeUser {
   background: $color-backgroud-header;
   position: sticky;
@@ -446,7 +469,7 @@ body {
         align-items: center;
       }
 
-      a {
+      .nav-link {
         display: flex;
         padding: 0.3125rem 0.9375rem;
         font-weight: 500;
@@ -515,12 +538,11 @@ body {
     top: 43px;
     left: -25px;
 
-    a {
+    .dropdown-item {
       color: black;
       padding: 0.75rem 1rem !important;
       display: block;
       font-size: 0.875rem;
-      font-weight: $light !important;
 
       &:hover {
         color: $accent;
@@ -613,11 +635,11 @@ body {
         margin: 0;
         padding-left: 0.9375rem;
 
-        li {
+        .nav-item {
           padding: 0.625rem 0;
           padding-left: 0.625rem;
 
-          a {
+          .nav-link {
             display: block;
             transition: 0.3s;
             color: rgb(27, 27, 27);
@@ -629,10 +651,14 @@ body {
     }
 
     .side-nav__footer {
+      position:absolute;
+      bottom: 0;
       margin: 1.25rem;
+      margin-right: 5rem;
       padding: 0.9375rem 0;
       text-align: center;
       background: $accent;
+      width: 87%;
 
       a {
         color: $white;

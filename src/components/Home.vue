@@ -236,12 +236,13 @@ body {
         flex-direction: column;
         margin: 0;
         padding-left: 0.9375rem;
+        align-items: flex-start;
 
-        li {
+        .nav-item {
           padding: 0.625rem 0;
           padding-left: 0.625rem;
 
-          a {
+          .nav-link {
             display: block;
             transition: 0.3s;
             color: rgb(27, 27, 27);
@@ -276,7 +277,7 @@ body {
       cursor: pointer;
       color: #aaa;
       border: 1px solid rgb(233, 228, 228);
-      padding: 0 0.375rem;
+      padding: 0.3rem 0.375rem;
     }
   }
 }

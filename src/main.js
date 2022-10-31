@@ -28,20 +28,20 @@ Axios.defaults.baseURL = 'http://103.18.7.212:1734';
 Axios.defaults.headers.common['Authorization'] = `Bearer ${store.state.token}`;
 Axios.defaults.headers.post['Content-Type'] = ' application/json';
 
-// Axios.interceptors.request.use(function (config) {
-//   NProgress.start()
-//   const token = store.getters.isLoggedIn;
-//   if (token) {
-//     config.headers.Authorization = `Bearer ${token}`;
-//   }
-//   return config;
-// }, function (err) {
-//   return Promise.reject(err);
-// });
-// Axios.interceptors.response.use(function (config) {
-//   NProgress.done()
-//   return config;
-// });
+Axios.interceptors.request.use(function (config) {
+  NProgress.start()
+  const token = store.getters.isLoggedIn;
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+}, function (err) {
+  return Promise.reject(err);
+});
+Axios.interceptors.response.use(function (config) {
+  NProgress.done()
+  return config;
+});
 new Vue({
   router,
   store,
